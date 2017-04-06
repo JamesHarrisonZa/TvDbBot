@@ -25,6 +25,12 @@ var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 bot.dialog('/', dialog);
 dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.'));
 
+dialog.matches('Greet',
+	(session, args, next) => {
+
+		session.send('Why hello there :)');
+	});
+
 dialog.matches('Query',
 	(session, args, next) => {
 
@@ -61,7 +67,7 @@ dialog.matches('Alert',
 // Private methods
 // ToDo: move somewhere
 
-function getEntitiesFromCollection(collection: Array<builder.IEntity>): Array<string>  {
+function getEntitiesFromCollection(collection: Array<builder.IEntity>): Array<string> {
 	var entities = collection.map((item) => {
 		return item.entity;
 	});
