@@ -61,7 +61,7 @@ dialog.matches('Alert',
 // Private methods
 // ToDo: move somewhere
 
-function getEntitiesFromCollection(collection) {
+function getEntitiesFromCollection(collection: Array<builder.IEntity>): Array<string>  {
 	var entities = collection.map((item) => {
 		return item.entity;
 	});
