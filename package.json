@@ -1,0 +1,28 @@
+{
+  "name": "tvdbbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "config": {},
+  "scripts": {
+    "prepare": "tsc",
+    "start": "node dist/server.js",
+    "debug": "tsc && node --debug-brk=33295 --nolazy dist/server.js",
+    "test": "tsc && jasmine JASMINE_CONFIG_PATH=jasmine.json",
+    "test-cover": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remaped-summary.txt -t text-summary && type coverage\\coverage-remaped-summary.txt",
+    "test-cover-detail": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remaped.txt -t text && type coverage\\coverage-remaped.txt",
+    "test-cover-report": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none  && remap-istanbul -i coverage/coverage.json -o coverage/lcov-report-remapped -t html && start coverage/lcov-report-remapped/index.html"
+  },
+  "author": "James",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "restify": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.12",
+    "jasmine": "^2.5.3",
+    "tslint": "^5.0.0",
+    "typescript": "^2.2.2"
+  }
+}
