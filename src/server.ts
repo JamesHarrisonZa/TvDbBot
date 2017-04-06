@@ -1,5 +1,6 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
+import { Authorization as Authorization } from './Authorization';
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -31,6 +32,9 @@ dialog.matches('Query',
 		var action = builder.EntityRecognizer.findEntity(args.entities, 'Action');
 		var seriesDetails = builder.EntityRecognizer.findAllEntities(args.entities, 'SeriesDetail');
 		var series = builder.EntityRecognizer.findAllEntities(args.entities, 'Series');
+
+		//Testing TS
+		let authToken = new Authorization().Token;
 
 		//Get Output
 		var output = '--<< LUIS results >>--';
