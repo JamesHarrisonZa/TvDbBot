@@ -1,11 +1,6 @@
 import * as request from 'request-promise';
 import { ILoginResponse as ILoginResponse } from './ILoginResponse';
 
-// export interface LoginResponse {
-
-// 	readonly Token: string;
-// }
-
 export class RestClient {
 
 	public async GetLoginResponse(): Promise<ILoginResponse> {
@@ -28,14 +23,7 @@ export class RestClient {
 			json: true,
 		};
 
-		try {
-
-			const response = await request(uriOptions);
-			return Promise.resolve<ILoginResponse>(response);
-
-		} catch (err) {
-
-			throw 'Problem calling the API: ' + err;
-		}
+		const response = await request(uriOptions);
+		return Promise.resolve<ILoginResponse>(response);
 	}
 }
