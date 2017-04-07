@@ -10,7 +10,8 @@ export class Greeting {
 
 		return [
 			'Hi',
-			'Hello', 'Hello There',
+			'Hello',
+			'Hello There',
 			'Well Hello There',
 			'Greetings',
 			'Shalom',
@@ -36,7 +37,10 @@ export class Greeting {
 			'What\'s up?',
 			'What\'s up bitches?',
 			'Good day to you!',
-			'A Hoy Hoy!'
+			'A Hoy Hoy!',
+			'Good morrow!',
+			'Ola!',
+			'Greetings earthling'
 		];
 	}
 }
