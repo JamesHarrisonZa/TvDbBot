@@ -1,13 +1,17 @@
+import { RestClient as RestClient } from './RestClient';
+
 export class Authorization {
 
 	public Token: string;
 
 	constructor() {
-		var username = 'JamesHarrisonZa';
-		var userkey = '384E1499ABB96440';
-		var apikey = '07911F113B4FBCBD';
 
 		//Make api call
-		this.Token = 'ToDo: Get from API';
+		var restClient = new RestClient();
+		var loginResponse = restClient.GetLoginResponse()
+			.then(loginResponse => {
+
+				this.Token = loginResponse.token;
+			});
 	}
 }

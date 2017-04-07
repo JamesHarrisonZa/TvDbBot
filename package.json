@@ -22,7 +22,12 @@
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
     "@types/node": "^7.0.12",
+    "@types/request": "0.0.42",
+    "@types/request-promise": "^4.1.33",
+    "@types/restify": "^2.0.42",
     "jasmine": "^2.5.3",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
     "tslint": "^5.0.0",
     "typescript": "^2.2.2"
   }

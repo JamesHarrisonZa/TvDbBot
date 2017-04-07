@@ -1,6 +1,7 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
-import { Authorization as Authorization } from './Authorization';
+import { RestClient as RestClient } from './RestClient';
+import { ILoginResponse as ILoginResponse } from './ILoginResponse';
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -28,19 +29,29 @@ dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.'));
 dialog.matches('Greet',
 	(session, args, next) => {
 
-		session.send('Why hello there :)');
+		if(!session.privateConversationData.accessToken) {
+
+			var restClient = new RestClient();
+			restClient.GetLoginResponse()
+				.then(loginResponse => {
+					session.privateConversationData.accessToken = loginResponse.token;
+					session.send('Why hello there :)'); //ToDo: Get random greeting
+				});
+		}else {
+			session.send('Why hello there :)'); //ToDo: Get random greeting
+		}
 	});
 
 dialog.matches('Query',
 	(session, args, next) => {
 
+		var accessToken = session.privateConversationData.accessToken;
+		console.log(accessToken);
+
 		//Get Entities
 		var action = builder.EntityRecognizer.findEntity(args.entities, 'Action');
 		var seriesDetails = builder.EntityRecognizer.findAllEntities(args.entities, 'SeriesDetail');
 		var series = builder.EntityRecognizer.findAllEntities(args.entities, 'Series');
-
-		//Testing TS
-		let authToken = new Authorization().Token;
 
 		//Get Output
 		var output = '--<< LUIS results >>--';
