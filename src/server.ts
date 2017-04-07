@@ -1,6 +1,7 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
 import { RestClient as RestClient } from './RestClient';
+import { Greeting as Greeting } from './Greeting';
 import { ILoginResponse as ILoginResponse } from './ILoginResponse';
 
 // Setup Restify Server
@@ -35,10 +36,10 @@ dialog.matches('Greet',
 			restClient.GetLoginResponse()
 				.then(loginResponse => {
 					session.privateConversationData.accessToken = loginResponse.token;
-					session.send('Why hello there :)'); //ToDo: Get random greeting
+					session.send(new Greeting().Phrases);
 				});
 		}else {
-			session.send('Why hello there :)'); //ToDo: Get random greeting
+			session.send(new Greeting().Phrases);
 		}
 	});
 
