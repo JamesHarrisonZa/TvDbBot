@@ -1,6 +1,6 @@
 export class Greeting {
 
-	public Phrases: string[];
+	public readonly Phrases: string[];
 
 	constructor() {
 		this.Phrases = this.GetPhrases();

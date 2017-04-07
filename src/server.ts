@@ -1,8 +1,8 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
-import { RestClient as RestClient } from './RestClient';
+import { RestClient as RestClient } from './Rest/RestClient';
 import { Greeting as Greeting } from './Greeting';
-import { ILoginResponse as ILoginResponse } from './ILoginResponse';
+import { ILoginResponse as ILoginResponse } from './Rest/ILoginResponse';
 
 // Setup Restify Server
 var server = restify.createServer();
