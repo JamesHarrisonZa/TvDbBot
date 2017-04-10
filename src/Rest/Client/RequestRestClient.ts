@@ -1,7 +1,7 @@
 import * as requestPromise from 'request-promise';
+import { IRestClient as IRestClient } from './IRestClient';
 import { ILoginResponse as ILoginResponse } from '../Responses/ILoginResponse';
 import { RequestRequest as RequestRequest } from '../Requests/RequestRequest';
-import { IRestClient as IRestClient } from './IRestClient';
 
 //Specific implementation with Request and Request-Promise npm package
 export class RequestRestClient implements IRestClient {

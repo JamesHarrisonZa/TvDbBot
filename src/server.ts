@@ -1,6 +1,6 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
-import { Greeting as Greeting } from './Greeting';
+import { Greeting as Greeting } from './Greeting/Greeting';
 import { RequestRestClient as RequestRestClient } from './Rest/Client/RequestRestClient';
 import { ILoginResponse as ILoginResponse } from './Rest/Responses/ILoginResponse';
 import { LoginRequest as LoginRequest } from './Rest/Requests/LoginRequest';
@@ -31,8 +31,7 @@ dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.'));
 dialog.matches('Greet',
 	(session, args, next) => {
 
-		if(session.privateConversationData.accessToken) {//ToDo: Remove
-		//if(!session.privateConversationData.accessToken) {
+		if(!session.privateConversationData.accessToken) {
 			var restClient = new RequestRestClient();
 			var loginRequest = new LoginRequest();
 			restClient.Execute<ILoginResponse>(loginRequest)
