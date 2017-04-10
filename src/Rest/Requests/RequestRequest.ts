@@ -3,9 +3,17 @@ import { IRequest as IRequest } from './IRequest';
 
 export class RequestRequest implements IRequest {
 
-	public readonly UriOptions: request.UriOptions;
+	public readonly UriOptions: RequestUriOptions;
 
-	constructor(uriOptions: request.UriOptions) {
+	constructor(uriOptions: RequestUriOptions) {
 		this.UriOptions = uriOptions;
 	}
+}
+
+class RequestUriOptions {
+	uri: string;
+	method: string;
+	headers: any;
+	body: any;
+	json: boolean;
 }

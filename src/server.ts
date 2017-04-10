@@ -2,8 +2,10 @@ import * as restify from 'restify';
 import * as builder from 'botbuilder';
 import { Greeting as Greeting } from './Greeting/Greeting';
 import { RequestRestClient as RequestRestClient } from './Rest/Client/RequestRestClient';
-import { ILoginResponse as ILoginResponse } from './Rest/Responses/ILoginResponse';
-import { LoginRequest as LoginRequest } from './Rest/Requests/LoginRequest';
+import { LoginRequest as LoginRequest } from './Rest/Requests/TvDb/LoginRequest';
+import { SearchSeriesRequest as SearchSeriesRequest } from './Rest/Requests/TvDb/SearchSeriesRequest';
+import { ILoginResponse as ILoginResponse } from './Rest/Responses/TvDb/ILoginResponse';
+import { ISearchSeriesResponse as ISearchSeriesResponse } from './Rest/Responses/TvDb/ISearchSeriesResponse';
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -68,6 +70,18 @@ dialog.matches('Query',
 			var seriesEntities = getEntitiesFromCollection(series);
 			output += '\n\n Series: ' + seriesEntities;
 		}
+
+		//Experimenting
+		var restClient = new RequestRestClient();
+		var searchSeriesRequest = new SearchSeriesRequest(accessToken, 'Sopranos');
+		restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
+			.then(searchSeriesResponse => {
+				var data = searchSeriesResponse.data;
+				var seriesName = searchSeriesResponse.data[0].seriesName;
+				var seriesId = searchSeriesResponse.data[0].id;
+				session.send('Found Series!: ' + seriesName);
+			});
+
 		session.send(output);
 	});
 
