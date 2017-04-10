@@ -1,8 +1,9 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
-import { RestClient as RestClient } from './Rest/RestClient';
 import { Greeting as Greeting } from './Greeting';
-import { ILoginResponse as ILoginResponse } from './Rest/ILoginResponse';
+import { RequestRestClient as RequestRestClient } from './Rest/Client/RequestRestClient';
+import { ILoginResponse as ILoginResponse } from './Rest/Responses/ILoginResponse';
+import { LoginRequest as LoginRequest } from './Rest/Requests/LoginRequest';
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -30,10 +31,11 @@ dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.'));
 dialog.matches('Greet',
 	(session, args, next) => {
 
-		if(!session.privateConversationData.accessToken) {
-
-			var restClient = new RestClient();
-			restClient.GetLoginResponse()
+		if(session.privateConversationData.accessToken) {//ToDo: Remove
+		//if(!session.privateConversationData.accessToken) {
+			var restClient = new RequestRestClient();
+			var loginRequest = new LoginRequest();
+			restClient.Execute<ILoginResponse>(loginRequest)
 				.then(loginResponse => {
 					session.privateConversationData.accessToken = loginResponse.token;
 					session.send(new Greeting().Phrases);

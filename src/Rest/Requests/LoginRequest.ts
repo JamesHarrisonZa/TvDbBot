@@ -1,8 +1,6 @@
-import * as request from 'request';
+import { RequestRequest as RequestRequest } from './RequestRequest';
 
-export class LoginRequest {
-
-	public readonly UriOptions: request.UriOptions;
+export class LoginRequest extends RequestRequest {
 
 	constructor() {
 
@@ -23,6 +21,6 @@ export class LoginRequest {
 			json: true,
 		};
 
-		this.UriOptions = uriOptions;
+		super(uriOptions);
 	}
 }
