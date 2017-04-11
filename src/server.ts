@@ -1,6 +1,7 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
 import { GreetingDialog as GreetingDialog } from './Dialog/GreetingDialog';
+import { ApologyDialog as ApologyDialog } from './Dialog/ApologyDialog';
 import { QueryDialog as QueryDialog } from './Dialog/QueryDialog';
 import { AlertDialog as AlertDialog } from './Dialog/AlertDialog';
 
@@ -29,7 +30,6 @@ var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 
 // Create dialogs
 bot.dialog('/', dialog);
-dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.')); //ToDo: Random fail message
 
 //ToDo: Find some other way other than dialog.onBegin to get the access Token
 dialog.onBegin((session, args, next) => {
@@ -44,6 +44,8 @@ dialog.onBegin((session, args, next) => {
 			});
 	}
 });
+
+dialog.onDefault(new ApologyDialog());
 
 dialog.matches('Greet', new GreetingDialog());
 
