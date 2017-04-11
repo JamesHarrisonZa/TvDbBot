@@ -45,23 +45,22 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 			const seriesEntities = this.getEntitiesFromCollection(series);
 			output += '\n\n Series: ' + seriesEntities;
 		}
-		//session.send(output);
+		console.log(output);
 
 		if (series.length === 0) {
 			return;
 		}
 
 		const seriesEntities = this.getEntitiesFromCollection(series);
-		const firstSeries = seriesEntities[0]; //Taking first. But must make a plan to handle choosing from multiple results. Let the user click which one?
+		const seriesToSearch = seriesEntities.join(' ');
 
 		const restClient = new RequestRestClient();
-		const searchSeriesRequest = new SearchSeriesRequest(accessToken, firstSeries);
+		const searchSeriesRequest = new SearchSeriesRequest(accessToken, seriesToSearch);
 		restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
 			.then(searchSeriesResponse => {
-				const data = searchSeriesResponse.data;
+				const data = searchSeriesResponse.data; //Potentially need to handle choosing from multiple results. Let the user click which one?
 				const seriesName = searchSeriesResponse.data[0].seriesName;
 				const seriesId = searchSeriesResponse.data[0].id;
-				//session.send('Found Series!: %s, with Id: %s', seriesName, seriesId);
 
 				//Can potentialy add check for "status" === "Continuing" before continuing
 
@@ -79,7 +78,6 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 						}
 						const sortedSeasons = seasonNumbers.sort(numberAs);
 						const latestSeason = sortedSeasons[sortedSeasons.length - 1];
-						//session.send('Found latestSeason!: %s', latestSeason);
 
 						const seriesIdEpisodesQuery = new SeriesIdEpisodesQuery(latestSeason);
 						const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(accessToken, seriesId, seriesIdEpisodesQuery);
@@ -96,7 +94,14 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 									return unairedEpisode.firstAired;
 								});
 								var firstUnairedEpisode = sortedUnairedEpisodes[0];
-								session.send('Episode: %s airs on: %s \n\n %s \n\n %s', firstUnairedEpisode.airedEpisodeNumber, firstUnairedEpisode.firstAired, firstUnairedEpisode.episodeName, firstUnairedEpisode.overview);
+
+								//Displaying Output
+								let queryOutput = 'Episode: ' + firstUnairedEpisode.airedEpisodeNumber + ' airs on: ' + firstUnairedEpisode.firstAired;
+								if(firstUnairedEpisode.overview) {
+									queryOutput += '\n\n Overview: ' + firstUnairedEpisode.overview;
+								}
+
+								session.send(queryOutput);
 							});
 					});
 			});
