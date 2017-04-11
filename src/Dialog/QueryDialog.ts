@@ -61,7 +61,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 						.then(seriesIdEpisodesSummaryResponse => {
 							var airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
 							var sortedSeasons = _(airedSeasons).sortBy((seasonString)=> {
-								return parseInt(seasonString);
+								return parseInt(seasonString, 10);
 							});
 							var latestSeason = sortedSeasons[sortedSeasons.length-1];
 							session.send('Found latestSeason!: %s', latestSeason);
