@@ -1,11 +1,12 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
-import { Greeting as Greeting } from './Greeting/Greeting';
+import { GreetingDialog as GreetingDialog } from './Dialog/GreetingDialog';
+import { QueryDialog as QueryDialog } from './Dialog/QueryDialog';
+import { AlertDialog as AlertDialog } from './Dialog/AlertDialog';
+
 import { RequestRestClient as RequestRestClient } from './Rest/Client/RequestRestClient';
 import { LoginRequest as LoginRequest } from './Rest/Requests/TvDb/LoginRequest';
-import { SearchSeriesRequest as SearchSeriesRequest } from './Rest/Requests/TvDb/SearchSeriesRequest';
 import { ILoginResponse as ILoginResponse } from './Rest/Responses/TvDb/ILoginResponse';
-import { ISearchSeriesResponse as ISearchSeriesResponse } from './Rest/Responses/TvDb/ISearchSeriesResponse';
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -28,75 +29,24 @@ var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 
 // Create dialogs
 bot.dialog('/', dialog);
-dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.'));
+dialog.onDefault(builder.DialogAction.send('I\'m sorry I didn\'t understand.')); //ToDo: Random fail message
 
-dialog.matches('Greet',
-	(session, args, next) => {
+//ToDo: Find some other way other than dialog.onBegin to get the access Token
+dialog.onBegin((session, args, next) => {
 
-		if(!session.privateConversationData.accessToken) {
-			var restClient = new RequestRestClient();
-			var loginRequest = new LoginRequest();
-			restClient.Execute<ILoginResponse>(loginRequest)
-				.then(loginResponse => {
-					session.privateConversationData.accessToken = loginResponse.token;
-					session.send(new Greeting().Phrases);
-				});
-		}else {
-			session.send(new Greeting().Phrases);
-		}
-	});
-
-dialog.matches('Query',
-	(session, args, next) => {
-
-		var accessToken = session.privateConversationData.accessToken;
-		console.log(accessToken);
-
-		//Get Entities
-		var action = builder.EntityRecognizer.findEntity(args.entities, 'Action');
-		var seriesDetails = builder.EntityRecognizer.findAllEntities(args.entities, 'SeriesDetail');
-		var series = builder.EntityRecognizer.findAllEntities(args.entities, 'Series');
-
-		//Get Output
-		var output = '--<< LUIS results >>--';
-		if (action) {
-			output += '\n\n Action: ' + action.entity;
-		}
-		if (seriesDetails.length !== 0) {
-			var seriesDetailsEntities = getEntitiesFromCollection(seriesDetails);
-			output += '\n\n SeriesDetail: ' + seriesDetailsEntities;
-		}
-		if (series.length !== 0) {
-			var seriesEntities = getEntitiesFromCollection(series);
-			output += '\n\n Series: ' + seriesEntities;
-		}
-
-		//Experimenting
+	if(!session.userData.accessToken) {
 		var restClient = new RequestRestClient();
-		var searchSeriesRequest = new SearchSeriesRequest(accessToken, 'Sopranos');
-		restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
-			.then(searchSeriesResponse => {
-				var data = searchSeriesResponse.data;
-				var seriesName = searchSeriesResponse.data[0].seriesName;
-				var seriesId = searchSeriesResponse.data[0].id;
-				session.send('Found Series!: ' + seriesName);
+		var loginRequest = new LoginRequest();
+		restClient.Execute<ILoginResponse>(loginRequest)
+			.then(loginResponse => {
+				session.userData.accessToken = loginResponse.token;
+				session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
 			});
+	}
+});
 
-		session.send(output);
-	});
+dialog.matches('Greet', new GreetingDialog());
 
-dialog.matches('Alert',
-	(session, args, next) => {
+dialog.matches('Query', new QueryDialog());
 
-		session.send('ALERT: ToDo');
-	});
-
-// Private methods
-// ToDo: move somewhere
-
-function getEntitiesFromCollection(collection: Array<builder.IEntity>): Array<string> {
-	var entities = collection.map((item) => {
-		return item.entity;
-	});
-	return entities;
-}
+dialog.matches('Alert', new AlertDialog());
