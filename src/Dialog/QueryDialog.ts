@@ -39,11 +39,11 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		let output = '--<< LUIS results >>--';
 		if (seriesDetails.length !== 0) {
 			const seriesDetailsEntities = this.getEntitiesFromCollection(seriesDetails);
-			output += '\n\n SeriesDetail: ' + seriesDetailsEntities;
+			output += '\n SeriesDetail: ' + seriesDetailsEntities;
 		}
 		if (series.length !== 0) {
 			const seriesEntities = this.getEntitiesFromCollection(series);
-			output += '\n\n Series: ' + seriesEntities;
+			output += '\n Series: ' + seriesEntities;
 		}
 		console.log(output);
 
@@ -51,11 +51,13 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 			return;
 		}
 
-		const seriesEntities = this.getEntitiesFromCollection(series);
-		const seriesToSearch = seriesEntities.join(' ');
+		const luisOutput = this.getEntitiesFromCollection(series).join(' ');
+		const seriesToSearch = luisOutput.replace(' ’ ','').replace(' \' ', ''); //Luis is adding spaces around quotes, need to remove quotes for the api
 
 		const restClient = new RequestRestClient();
 		const searchSeriesRequest = new SearchSeriesRequest(accessToken, seriesToSearch);
+		console.log(searchSeriesRequest.UriOptions.uri);
+
 		restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
 			.then(searchSeriesResponse => {
 				const data = searchSeriesResponse.data; //Potentially need to handle choosing from multiple results. Let the user click which one?
@@ -73,7 +75,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 						const seasonNumbers = airedSeasons.map((seasonString) => {
 							return parseInt(seasonString, 10);
 						});
-						function numberAs(a: number, b: number) {
+						function numberAs(a: number, b: number): number {
 							return a - b;
 						}
 						const sortedSeasons = seasonNumbers.sort(numberAs);
