@@ -1,6 +1,8 @@
 import { IRestClient } from '../Rest/Client/IRestClient';
 import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
 import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
+import { SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
+import { ISeriesIdEpisodesSummaryResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesSummaryResponse';
 
 export class Query {
 
@@ -27,6 +29,24 @@ export class Query {
 		});
 
 		return seriesResults;
+	}
+
+	public async GetLatestSeason(seriesId: number): Promise<number> {
+
+		const seriesIdEpisodesSummaryRequest = new SeriesIdEpisodesSummaryRequest(this._accessToken, seriesId);
+		const seriesIdEpisodesSummaryResponse = await this._restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest);
+		const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
+
+		//Get Latest Season
+		const seasonNumbers = airedSeasons.map((seasonString) => {
+			return parseInt(seasonString, 10);
+		});
+		function numberAs(a: number, b: number): number {
+			return a - b;
+		}
+		const sortedSeasons = seasonNumbers.sort(numberAs);
+		const latestSeason = sortedSeasons[sortedSeasons.length - 1];
+		return latestSeason;
 	}
 }
 

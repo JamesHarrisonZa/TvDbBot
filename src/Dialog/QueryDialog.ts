@@ -1,6 +1,7 @@
 import * as builder from 'botbuilder';
 import * as _ from 'underscore';
 import { RequestRestClient } from '../Rest/Client/RequestRestClient';
+import { Query } from '../Actions/Query';
 
 import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
 import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
@@ -27,7 +28,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		return entities;
 	};
 
-	private RunQuery = function (session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): any {
+	private RunQuery = async function (session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): Promise<any> {
 
 		const accessToken = session.userData.accessToken;
 
@@ -58,54 +59,66 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const searchSeriesRequest = new SearchSeriesRequest(accessToken, seriesToSearch);
 		console.log(searchSeriesRequest.UriOptions.uri);
 
-		restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
-			.then(searchSeriesResponse => {
-				const data = searchSeriesResponse.data; //Potentially need to handle choosing from multiple results. Let the user click which one?
-				const seriesName = searchSeriesResponse.data[0].seriesName;
-				const seriesId = searchSeriesResponse.data[0].id;
+		const query = new Query(restClient, accessToken);
+		const seriesResults = await query.GetSeries(seriesToSearch);
+		//ToDo: Check if multiple choices
+		const latestSeason = await query.GetLatestSeason(seriesResults[0].Id);
 
-				//Can potentialy add check for "status" === "Continuing" before continuing
+		session.send('Found series: ' + seriesResults[0].Name);
+		session.send('latestSeason: ' + latestSeason);
 
-				const seriesIdEpisodesSummaryRequest = new SeriesIdEpisodesSummaryRequest(accessToken, seriesId);
-				restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest)
-					.then(seriesIdEpisodesSummaryResponse => {
-						const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
+		return 'had to put some return here';
 
-						//Get Latest Season
-						const seasonNumbers = airedSeasons.map((seasonString) => {
-							return parseInt(seasonString, 10);
-						});
-						function numberAs(a: number, b: number): number {
-							return a - b;
-						}
-						const sortedSeasons = seasonNumbers.sort(numberAs);
-						const latestSeason = sortedSeasons[sortedSeasons.length - 1];
+		//ToDo: Move functionality below to Query.ts
 
-						const seriesIdEpisodesQuery = new SeriesIdEpisodesQuery(latestSeason);
-						const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(accessToken, seriesId, seriesIdEpisodesQuery);
-						restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest)
-							.then((seriesIdEpisodesResponse) => {
-								const episodesData = seriesIdEpisodesResponse.data;
+		// restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
+		// 	.then(searchSeriesResponse => {
+		// 		const data = searchSeriesResponse.data; //Potentially need to handle choosing from multiple results. Let the user click which one?
+		// 		const seriesName = searchSeriesResponse.data[0].seriesName;
+		// 		const seriesId = searchSeriesResponse.data[0].id;
 
-								var todaysDate = new Date();
-								const unairedEpisodes = episodesData.filter((episodeData)=> {
-									var airedDate = new Date(episodeData.firstAired);
-									return airedDate > todaysDate;
-								});
-								var sortedUnairedEpisodes = _(unairedEpisodes).sortBy((unairedEpisode)=> {
-									return unairedEpisode.firstAired;
-								});
-								var firstUnairedEpisode = sortedUnairedEpisodes[0];
+		// 		//Can potentialy add check for "status" === "Continuing" before continuing
 
-								//Displaying Output
-								let queryOutput = 'Episode: ' + firstUnairedEpisode.airedEpisodeNumber + ' airs on: ' + firstUnairedEpisode.firstAired;
-								if(firstUnairedEpisode.overview) {
-									queryOutput += '\n\n Overview: ' + firstUnairedEpisode.overview;
-								}
+		// 		const seriesIdEpisodesSummaryRequest = new SeriesIdEpisodesSummaryRequest(accessToken, seriesId);
+		// 		restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest)
+		// 			.then(seriesIdEpisodesSummaryResponse => {
+		// 				const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
 
-								session.send(queryOutput);
-							});
-					});
-			});
+		// 				//Get Latest Season
+		// 				const seasonNumbers = airedSeasons.map((seasonString) => {
+		// 					return parseInt(seasonString, 10);
+		// 				});
+		// 				function numberAs(a: number, b: number): number {
+		// 					return a - b;
+		// 				}
+		// 				const sortedSeasons = seasonNumbers.sort(numberAs);
+		// 				const latestSeason = sortedSeasons[sortedSeasons.length - 1];
+
+		// 				const seriesIdEpisodesQuery = new SeriesIdEpisodesQuery(latestSeason);
+		// 				const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(accessToken, seriesId, seriesIdEpisodesQuery);
+		// 				restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest)
+		// 					.then((seriesIdEpisodesResponse) => {
+		// 						const episodesData = seriesIdEpisodesResponse.data;
+
+		// 						var todaysDate = new Date();
+		// 						const unairedEpisodes = episodesData.filter((episodeData)=> {
+		// 							var airedDate = new Date(episodeData.firstAired);
+		// 							return airedDate > todaysDate;
+		// 						});
+		// 						var sortedUnairedEpisodes = _(unairedEpisodes).sortBy((unairedEpisode)=> {
+		// 							return unairedEpisode.firstAired;
+		// 						});
+		// 						var firstUnairedEpisode = sortedUnairedEpisodes[0];
+
+		// 						//Displaying Output
+		// 						let queryOutput = 'Episode: ' + firstUnairedEpisode.airedEpisodeNumber + ' airs on: ' + firstUnairedEpisode.firstAired;
+		// 						if(firstUnairedEpisode.overview) {
+		// 							queryOutput += '\n\n Overview: ' + firstUnairedEpisode.overview;
+		// 						}
+
+		// 						session.send(queryOutput);
+		// 					});
+		// 			});
+		// 	});
 	};
 }
