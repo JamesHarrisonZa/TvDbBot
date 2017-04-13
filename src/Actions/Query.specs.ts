@@ -8,8 +8,7 @@ describe('Query', () => {
 	let restClient: IRestClient;
 	let query: Query;
 
-	const jsonResponse =
-	{
+	const jsonResponse = {
 		data: [
 			{
 				aliases: [],
@@ -28,16 +27,19 @@ describe('Query', () => {
 
 		restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
 		query = new Query(restClient, accessToken);
-		when(restClient.Execute).isCalled.then(() => Promise.resolve(jsonResponse));
+		when(restClient.Execute).isCalled.then(() => jsonResponse);
 	});
 
 	describe('about Silicon Valley', () => {
 
 		const seriesName = 'Silicon Valley';
 
-		it('should get results from the API', () => {
-			const seriesResults = query.GetSeries(seriesName);
+		it('should get results from the API', async () => {
+			const seriesResults = await query.GetSeries(seriesName);
 			expect(seriesResults).not.toBe(null);
+			expect(seriesResults.length).toBe(1);
+			expect(seriesResults[0].Id).toBe(277165);
+			expect(seriesResults[0].Name).toBe('Silicon Valley');
 		});
 	});
 
