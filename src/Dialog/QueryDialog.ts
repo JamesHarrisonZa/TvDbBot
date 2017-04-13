@@ -1,16 +1,16 @@
 import * as builder from 'botbuilder';
 import * as _ from 'underscore';
-import { RequestRestClient as RequestRestClient } from '../Rest/Client/RequestRestClient';
+import { RequestRestClient } from '../Rest/Client/RequestRestClient';
 
-import { SearchSeriesRequest as SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
-import { ISearchSeriesResponse as ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
+import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
+import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
 
-import { SeriesIdEpisodesSummaryRequest as SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
-import { ISeriesIdEpisodesSummaryResponse as ISeriesIdEpisodesSummaryResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesSummaryResponse';
+import { SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
+import { ISeriesIdEpisodesSummaryResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesSummaryResponse';
 
-import { SeriesIdEpisodesRequest as SeriesIdEpisodesRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
-import { ISeriesIdEpisodesResponse as ISeriesIdEpisodesResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesResponse';
-import { SeriesIdEpisodesQuery as SeriesIdEpisodesQuery } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
+import { SeriesIdEpisodesRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
+import { ISeriesIdEpisodesResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesResponse';
+import { SeriesIdEpisodesQuery } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
 
 export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 

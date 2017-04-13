@@ -27,7 +27,8 @@
 			"args": [
 				"JASMINE_CONFIG_PATH=jasmine.json"
 			],
-			"cwd": "${workspaceRoot}"
+			"cwd": "${workspaceRoot}",
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ] //This helps with breakpoints in typescript files
 		}
 	]
 }
