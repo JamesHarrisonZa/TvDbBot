@@ -53,7 +53,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const seriesId = seriesResults[0].Id; //ToDo: Check if multiple choices //ToDo: potentialy add check for "status" === "Continuing" before continuing
 		const latestSeason = await query.GetLatestSeason(seriesId);
 		const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
-		
+
 		session.send(nextEpisodeDate.toDateString());
 	};
 }

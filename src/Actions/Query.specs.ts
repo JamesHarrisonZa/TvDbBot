@@ -100,7 +100,7 @@ describe('Query', () => {
 				const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
 
 				expect(new Date('2017-04-23').toDateString()).toBe(nextEpisodeDate.toDateString());
-			})
+			});
 		});
 
 	});
