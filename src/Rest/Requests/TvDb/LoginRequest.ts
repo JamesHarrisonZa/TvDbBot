@@ -1,4 +1,4 @@
-import { RequestRequest as RequestRequest } from '../RequestRequest';
+import { RequestRequest } from '../RequestRequest';
 
 export class LoginRequest extends RequestRequest {
 

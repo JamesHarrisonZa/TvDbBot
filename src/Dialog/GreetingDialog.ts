@@ -1,5 +1,5 @@
 import * as builder from 'botbuilder';
-import { Greeting as Greeting } from '../Message/Greeting';
+import { Greeting } from '../Message/Greeting';
 
 export class GreetingDialog extends Array<builder.IDialogWaterfallStep> {
 

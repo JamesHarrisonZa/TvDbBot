@@ -1,5 +1,5 @@
-import { LoginRequest as LoginRequest} from './TvDb/LoginRequest';
-import { SearchSeriesRequest as SearchSeriesRequest} from './TvDb/SearchSeriesRequest';
+import { LoginRequest } from './TvDb/LoginRequest';
+import { SearchSeriesRequest } from './TvDb/SearchSeriesRequest';
 
 describe('RequestRequest', () => {
 

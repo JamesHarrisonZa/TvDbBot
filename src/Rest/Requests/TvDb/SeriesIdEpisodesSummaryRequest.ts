@@ -1,5 +1,5 @@
 import * as request from 'request';
-import { RequestRequest as RequestRequest } from '../RequestRequest';
+import { RequestRequest } from '../RequestRequest';
 
 export class SeriesIdEpisodesSummaryRequest extends RequestRequest {
 	constructor(accessToken: string, seriesId: number) {

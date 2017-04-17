@@ -51,12 +51,12 @@ describe('Query', () => {
 			const seriesId = 277165;
 			const seriesIdEpisodesSummaryResponse = {
 				data:
-					{
-						airedSeasons: ['1', '3', '4', '2'],
-						airedEpisodes: 34,
-						dvdSeasons: ['1', '2', '3'],
-						dvdEpisodes: '28'
-					}
+				{
+					airedSeasons: ['1', '3', '4', '2'],
+					airedEpisodes: 34,
+					dvdSeasons: ['1', '2', '3'],
+					dvdEpisodes: '28'
+				}
 			};
 
 			beforeEach(() => {
@@ -73,7 +73,36 @@ describe('Query', () => {
 				expect(latestSeason).toBe(4);
 			});
 		});
-	});
 
-	//Test that returns multiple results.
+		describe('Given the latest season number', () => {
+
+			const seriesId = 277165;
+			const latestSeason = 4;
+			const seriesIdEpisodesResponse = {
+				links: { first: 1, last: 1, next: null, prev: null },
+				data: [
+					{
+						airedSeason: 4,
+						firstAired: '2017-04-23'
+					}
+				]
+			};
+			const expectedDate = new Date('2017-04-23')
+
+			beforeEach(() => {
+
+				restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
+				query = new Query(restClient, accessToken);
+				when(restClient.Execute).isCalled.then(() => seriesIdEpisodesResponse);
+			});
+
+			it('should get the date of the next episode', async () => {
+
+				const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
+
+				expect(nextEpisodeDate.toDateString()).toBe(expectedDate.toDateString());
+			})
+		});
+
+	});
 });

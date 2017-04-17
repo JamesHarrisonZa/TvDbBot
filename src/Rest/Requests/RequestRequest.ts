@@ -1,5 +1,5 @@
 import * as request from 'request';
-import { IRequest as IRequest } from './IRequest';
+import { IRequest } from './IRequest';
 
 export class RequestRequest implements IRequest {
 

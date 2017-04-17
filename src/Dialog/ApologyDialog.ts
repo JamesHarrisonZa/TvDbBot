@@ -1,5 +1,5 @@
 import * as builder from 'botbuilder';
-import { Apology as Apology } from '../Message/Apology';
+import { Apology } from '../Message/Apology';
 
 export class ApologyDialog extends Array<builder.IDialogWaterfallStep> {
 

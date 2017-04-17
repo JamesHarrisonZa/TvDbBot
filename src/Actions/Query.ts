@@ -1,8 +1,11 @@
+import * as _ from 'underscore';
 import { IRestClient } from '../Rest/Client/IRestClient';
 import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
 import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
 import { SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
 import { ISeriesIdEpisodesSummaryResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesSummaryResponse';
+import { SeriesIdEpisodesRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
+import { ISeriesIdEpisodesResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesResponse';
 
 export class Query {
 
@@ -37,7 +40,6 @@ export class Query {
 		const seriesIdEpisodesSummaryResponse = await this._restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest);
 		const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
 
-		//Get Latest Season
 		const seasonNumbers = airedSeasons.map((seasonString) => {
 			return parseInt(seasonString, 10);
 		});
@@ -47,6 +49,26 @@ export class Query {
 		const sortedSeasons = seasonNumbers.sort(numberAs);
 		const latestSeason = sortedSeasons[sortedSeasons.length - 1];
 		return latestSeason;
+	}
+
+	public async GetNextEpisodeDate(seriesId: number, season: number): Promise<Date> { //ToDo: Maybe return more info, overview ?
+
+		const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(this._accessToken, seriesId, season);
+		const episodesResponse = await this._restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest)
+
+		const episodesData = episodesResponse.data;
+
+		const todaysDate = new Date();
+		const sortedUnairedDates = episodesData
+			.map((episodeData) => {
+				return new Date(episodeData.firstAired);
+			})
+			.filter((airedDate) => {
+				return airedDate > todaysDate;
+			})
+			.sort();
+		
+		return sortedUnairedDates[0];
 	}
 }
 

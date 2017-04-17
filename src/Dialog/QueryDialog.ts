@@ -3,16 +3,6 @@ import * as _ from 'underscore';
 import { RequestRestClient } from '../Rest/Client/RequestRestClient';
 import { Query } from '../Actions/Query';
 
-import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
-import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
-
-import { SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
-import { ISeriesIdEpisodesSummaryResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesSummaryResponse';
-
-import { SeriesIdEpisodesRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
-import { ISeriesIdEpisodesResponse } from '../Rest/Responses/TvDb/ISeriesIdEpisodesResponse';
-import { SeriesIdEpisodesQuery } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
-
 export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 
 	constructor() {
@@ -49,6 +39,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		console.log(output);
 
 		if (series.length === 0) {
+			session.send('Could not find that series :('); //ToDo: Add random inputs
 			return;
 		}
 
@@ -56,69 +47,13 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const seriesToSearch = luisOutput.replace(' ’ ','').replace(' \' ', ''); //Luis is adding spaces around quotes, need to remove quotes for the api
 
 		const restClient = new RequestRestClient();
-		const searchSeriesRequest = new SearchSeriesRequest(accessToken, seriesToSearch);
-		console.log(searchSeriesRequest.UriOptions.uri);
-
 		const query = new Query(restClient, accessToken);
+
 		const seriesResults = await query.GetSeries(seriesToSearch);
-		//ToDo: Check if multiple choices
-		const latestSeason = await query.GetLatestSeason(seriesResults[0].Id);
-
-		session.send('Found series: ' + seriesResults[0].Name);
-		session.send('latestSeason: ' + latestSeason);
-
-		return 'had to put some return here';
-
-		//ToDo: Move functionality below to Query.ts
-
-		// restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest)
-		// 	.then(searchSeriesResponse => {
-		// 		const data = searchSeriesResponse.data; //Potentially need to handle choosing from multiple results. Let the user click which one?
-		// 		const seriesName = searchSeriesResponse.data[0].seriesName;
-		// 		const seriesId = searchSeriesResponse.data[0].id;
-
-		// 		//Can potentialy add check for "status" === "Continuing" before continuing
-
-		// 		const seriesIdEpisodesSummaryRequest = new SeriesIdEpisodesSummaryRequest(accessToken, seriesId);
-		// 		restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest)
-		// 			.then(seriesIdEpisodesSummaryResponse => {
-		// 				const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
-
-		// 				//Get Latest Season
-		// 				const seasonNumbers = airedSeasons.map((seasonString) => {
-		// 					return parseInt(seasonString, 10);
-		// 				});
-		// 				function numberAs(a: number, b: number): number {
-		// 					return a - b;
-		// 				}
-		// 				const sortedSeasons = seasonNumbers.sort(numberAs);
-		// 				const latestSeason = sortedSeasons[sortedSeasons.length - 1];
-
-		// 				const seriesIdEpisodesQuery = new SeriesIdEpisodesQuery(latestSeason);
-		// 				const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(accessToken, seriesId, seriesIdEpisodesQuery);
-		// 				restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest)
-		// 					.then((seriesIdEpisodesResponse) => {
-		// 						const episodesData = seriesIdEpisodesResponse.data;
-
-		// 						var todaysDate = new Date();
-		// 						const unairedEpisodes = episodesData.filter((episodeData)=> {
-		// 							var airedDate = new Date(episodeData.firstAired);
-		// 							return airedDate > todaysDate;
-		// 						});
-		// 						var sortedUnairedEpisodes = _(unairedEpisodes).sortBy((unairedEpisode)=> {
-		// 							return unairedEpisode.firstAired;
-		// 						});
-		// 						var firstUnairedEpisode = sortedUnairedEpisodes[0];
-
-		// 						//Displaying Output
-		// 						let queryOutput = 'Episode: ' + firstUnairedEpisode.airedEpisodeNumber + ' airs on: ' + firstUnairedEpisode.firstAired;
-		// 						if(firstUnairedEpisode.overview) {
-		// 							queryOutput += '\n\n Overview: ' + firstUnairedEpisode.overview;
-		// 						}
-
-		// 						session.send(queryOutput);
-		// 					});
-		// 			});
-		// 	});
+		const seriesId = seriesResults[0].Id; //ToDo: Check if multiple choices //ToDo: potentialy add check for "status" === "Continuing" before continuing
+		const latestSeason = await query.GetLatestSeason(seriesId);
+		const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
+		
+		session.send(nextEpisodeDate.toDateString());
 	};
 }

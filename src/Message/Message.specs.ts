@@ -1,5 +1,5 @@
-import { Greeting as Greeting } from './Greeting';
-import { Apology as Apology } from './Apology';
+import { Greeting } from './Greeting';
+import { Apology } from './Apology';
 
 describe('Greeting', () => {
 
