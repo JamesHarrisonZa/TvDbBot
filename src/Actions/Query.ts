@@ -1,4 +1,3 @@
-import * as _ from 'underscore';
 import { IRestClient } from '../Rest/Client/IRestClient';
 import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
 import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
