@@ -54,7 +54,7 @@ export class Query {
 	public async GetNextEpisodeDate(seriesId: number, season: number): Promise<Date> { //ToDo: Maybe return more info, overview ?
 
 		const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(this._accessToken, seriesId, season);
-		const episodesResponse = await this._restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest)
+		const episodesResponse = await this._restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest);
 
 		const episodesData = episodesResponse.data;
 
@@ -67,7 +67,7 @@ export class Query {
 				return airedDate > todaysDate;
 			})
 			.sort();
-		
+
 		return sortedUnairedDates[0];
 	}
 }
