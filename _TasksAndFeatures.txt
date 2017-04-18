@@ -1,5 +1,6 @@
 --<< QUERY >>--
 
+~Ask the user to choose if multiple choices are returned from the API
 ~Differentiate between 'next', 'first', 'last'
 
 --<< ALERTS >>--
