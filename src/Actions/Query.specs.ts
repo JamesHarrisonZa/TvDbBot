@@ -1,6 +1,6 @@
 import { Query } from './Query';
+import { SeriesStatus } from './SeriesStatus';
 import { IRestClient } from '../Rest/Client/IRestClient';
-import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
 import { SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
 import { SeriesIdEpisodesRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
 const when = require('saywhen');
@@ -8,10 +8,11 @@ const when = require('saywhen');
 describe('Query', () => {
 
 	const accessToken = 'someAccessToken';
-	const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
-	const query = new Query(restClient, accessToken);
 
 	describe('When is the next episode of Silicon Valley?', () => {
+
+		const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
+		const query = new Query(restClient, accessToken);
 
 		const seriesToSearch = 'Silicon Valley';
 		const searchSeriesResponse = {
@@ -32,7 +33,7 @@ describe('Query', () => {
 		describe('Given a current series to search', () => {
 
 			beforeEach(() => {
-				when(restClient.Execute).isCalledWith(jasmine.any(SearchSeriesRequest)).then(() => searchSeriesResponse);
+				when(restClient.Execute).isCalled.then(() => searchSeriesResponse);
 			});
 
 			it('should get the search results from the API', async () => {
@@ -108,6 +109,9 @@ describe('Query', () => {
 
 	describe('When is the next episode of The Sopranos?', () => {
 
+		const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
+		const query = new Query(restClient, accessToken);
+
 		const seriesToSearch = 'The Sopranos';
 		const searchSeriesResponse = {
 			data: [
@@ -127,7 +131,7 @@ describe('Query', () => {
 		describe('Given an old series to search', () => {
 
 			beforeEach(() => {
-				when(restClient.Execute).isCalledWith(jasmine.any(SearchSeriesRequest)).then(() => searchSeriesResponse);
+				when(restClient.Execute).isCalled.then(() => searchSeriesResponse);
 			});
 
 			it('should tell us that the series has ended', async () => {

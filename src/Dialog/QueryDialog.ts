@@ -2,6 +2,7 @@ import * as builder from 'botbuilder';
 import * as _ from 'underscore';
 import { RequestRestClient } from '../Rest/Client/RequestRestClient';
 import { Query } from '../Actions/Query';
+import { SeriesStatus } from '../Actions/SeriesStatus';
 
 export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 
@@ -50,7 +51,14 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const query = new Query(restClient, accessToken);
 
 		const seriesResults = await query.GetSeries(seriesToSearch);
-		const seriesId = seriesResults[0].Id; //ToDo: Check if multiple choices //ToDo: potentialy add check for "status" === "Continuing" before continuing
+		var seriesResult = seriesResults[0]; //ToDo: Ask the user to choose if multiple choices
+
+		if(seriesResult.Status === SeriesStatus.Ended) {
+			session.send('That series has ended :('); //ToDo: Add random inputs
+			return;
+		}
+
+		const seriesId = seriesResult.Id;
 		const latestSeason = await query.GetLatestSeason(seriesId);
 		const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
 

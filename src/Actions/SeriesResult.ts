@@ -1,3 +1,5 @@
+import { SeriesStatus } from './SeriesStatus';
+
 export class SeriesResult {
 	public Id: number;
 	public Name: string;
@@ -7,11 +9,10 @@ export class SeriesResult {
 		this.Id = id;
 		this.Name = name;
 
-		if (status === 'Ended') {
-			this.Status = SeriesStatus.Ended;
-		}
 		if (status === 'Continuing') {
 			this.Status = SeriesStatus.Continuing;
+		} else {
+			this.Status = SeriesStatus.Ended;
 		}
 	}
 }
