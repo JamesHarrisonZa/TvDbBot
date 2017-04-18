@@ -1,3 +1,4 @@
+import { SeriesResult } from './SeriesResult';
 import { IRestClient } from '../Rest/Client/IRestClient';
 import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
 import { ISearchSeriesResponse } from '../Rest/Responses/TvDb/ISearchSeriesResponse';
@@ -27,7 +28,7 @@ export class Query {
 		const seriesId = searchSeriesResponse.data[0].id;
 
 		const seriesResults = searchSeriesResponse.data.map((searchSeriesData) => {
-			return new SeriesResult(searchSeriesData.id, searchSeriesData.seriesName);
+			return new SeriesResult(searchSeriesData.id, searchSeriesData.seriesName, searchSeriesData.status);
 		});
 
 		return seriesResults;
@@ -68,15 +69,5 @@ export class Query {
 			.sort();
 
 		return sortedUnairedDates[0];
-	}
-}
-
-class SeriesResult {
-	public Id: number;
-	public Name: string;
-
-	constructor(id: number, name: string) {
-		this.Id = id;
-		this.Name = name;
 	}
 }

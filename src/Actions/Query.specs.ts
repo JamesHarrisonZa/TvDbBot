@@ -29,7 +29,7 @@ describe('Query', () => {
 			]
 		};
 
-		describe('Given a series to search', () => {
+		describe('Given a current series to search', () => {
 
 			beforeEach(() => {
 				when(restClient.Execute).isCalledWith(jasmine.any(SearchSeriesRequest)).then(() => searchSeriesResponse);
@@ -43,6 +43,13 @@ describe('Query', () => {
 				expect(seriesResults.length).toBe(1);
 				expect(seriesResults[0].Id).toBe(277165);
 				expect(seriesResults[0].Name).toBe('Silicon Valley');
+			});
+
+			it('should tell us the series is continuing', async () => {
+
+				const seriesResults = await query.GetSeries(seriesToSearch);
+
+				expect(seriesResults[0].Status).toBe(SeriesStatus.Continuing);
 			});
 		});
 
@@ -97,5 +104,38 @@ describe('Query', () => {
 			});
 		});
 
+	});
+
+	describe('When is the next episode of The Sopranos?', () => {
+
+		const seriesToSearch = 'The Sopranos';
+		const searchSeriesResponse = {
+			data: [
+				{
+					aliases: [],
+					banner: 'graphical/75299-g6.jpg',
+					firstAired: '1999-01-10',
+					id: 75299,
+					network: 'HBO',
+					overview: 'Modern day morality tale about New Jersey mob boss Tony Soprano, as he deals with personal and professional issues in his home and business life.',
+					seriesName: 'The Sopranos',
+					status: 'Ended'
+				}
+			]
+		};
+
+		describe('Given an old series to search', () => {
+
+			beforeEach(() => {
+				when(restClient.Execute).isCalledWith(jasmine.any(SearchSeriesRequest)).then(() => searchSeriesResponse);
+			});
+
+			it('should tell us that the series has ended', async () => {
+
+				const seriesResults = await query.GetSeries(seriesToSearch);
+
+				expect(seriesResults[0].Status).toBe(SeriesStatus.Ended);
+			});
+		});
 	});
 });
