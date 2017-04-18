@@ -1,12 +1,15 @@
-import { IRestClient } from '../Rest/Client/IRestClient';
 import { Query } from './Query';
+import { IRestClient } from '../Rest/Client/IRestClient';
+import { SearchSeriesRequest } from '../Rest/Requests/TvDb/SearchSeriesRequest';
+import { SeriesIdEpisodesSummaryRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesSummaryRequest';
+import { SeriesIdEpisodesRequest } from '../Rest/Requests/TvDb/SeriesIdEpisodesRequest';
 const when = require('saywhen');
 
 describe('Query', () => {
 
 	const accessToken = 'someAccessToken';
-	let restClient: IRestClient;
-	let query: Query;
+	const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
+	const query = new Query(restClient, accessToken);
 
 	describe('When is the next episode of Silicon Valley?', () => {
 
@@ -29,10 +32,7 @@ describe('Query', () => {
 		describe('Given a series to search', () => {
 
 			beforeEach(() => {
-
-				restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
-				query = new Query(restClient, accessToken);
-				when(restClient.Execute).isCalled.then(() => searchSeriesResponse);
+				when(restClient.Execute).isCalledWith(jasmine.any(SearchSeriesRequest)).then(() => searchSeriesResponse);
 			});
 
 			it('should get the search results from the API', async () => {
@@ -60,10 +60,7 @@ describe('Query', () => {
 			};
 
 			beforeEach(() => {
-
-				restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
-				query = new Query(restClient, accessToken);
-				when(restClient.Execute).isCalled.then(() => seriesIdEpisodesSummaryResponse);
+				when(restClient.Execute).isCalledWith(jasmine.any(SeriesIdEpisodesSummaryRequest)).then(() => seriesIdEpisodesSummaryResponse);
 			});
 
 			it('should find the latest season', async () => {
@@ -89,10 +86,7 @@ describe('Query', () => {
 			};
 
 			beforeEach(() => {
-
-				restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
-				query = new Query(restClient, accessToken);
-				when(restClient.Execute).isCalled.then(() => seriesIdEpisodesResponse);
+				when(restClient.Execute).isCalledWith(jasmine.any(SeriesIdEpisodesRequest)).then(() => seriesIdEpisodesResponse);
 			});
 
 			it('should get the date of the next episode', async () => {
