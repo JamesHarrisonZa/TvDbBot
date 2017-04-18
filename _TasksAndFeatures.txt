@@ -1,0 +1,11 @@
+--<< QUERY >>--
+
+~Differentiate between 'next', 'first', 'last'
+
+--<< ALERTS >>--
+
+~Start implementation
+~Do I need to remember which user is asking?
+~Proactive messaging
+~I need to store these alerts somewhere
+~I need something that will trigger the alerts
