@@ -18,19 +18,12 @@ export class Query {
 		this._accessToken = accessToken;
 	}
 
-	public async GetSeries(seriesToSearch: string): Promise<SeriesResult[]> {
+	public async GetSeries(seriesToSearch: string): Promise<Array<SeriesResult>> {
 
 		const searchSeriesRequest = new SearchSeriesRequest(this._accessToken, seriesToSearch);
 		const searchSeriesResponse = await this._restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest);
 
-		const data = searchSeriesResponse.data;
-		const seriesName = searchSeriesResponse.data[0].seriesName;
-		const seriesId = searchSeriesResponse.data[0].id;
-
-		const seriesResults = searchSeriesResponse.data.map((searchSeriesData) => {
-			return new SeriesResult(searchSeriesData.id, searchSeriesData.seriesName, searchSeriesData.status);
-		});
-
+		const seriesResults = searchSeriesResponse.data.map((p) => new SeriesResult(p.id, p.seriesName, p.status));
 		return seriesResults;
 	}
 
@@ -40,12 +33,8 @@ export class Query {
 		const seriesIdEpisodesSummaryResponse = await this._restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest);
 		const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
 
-		const seasonNumbers = airedSeasons.map((seasonString) => {
-			return parseInt(seasonString, 10);
-		});
-		function numberAs(a: number, b: number): number {
-			return a - b;
-		}
+		const numberAs = (a: number, b: number) => a - b;
+		const seasonNumbers = airedSeasons.map((p) => { return parseInt(p, 10); });
 		const sortedSeasons = seasonNumbers.sort(numberAs);
 		const latestSeason = sortedSeasons[sortedSeasons.length - 1];
 		return latestSeason;
