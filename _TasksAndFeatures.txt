@@ -10,3 +10,8 @@
 ~Proactive messaging
 ~I need to store these alerts somewhere
 ~I need something that will trigger the alerts
+
+--<< Potential Hosts >>--
+
+~Redhat
+~Haiku
