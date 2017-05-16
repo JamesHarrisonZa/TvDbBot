@@ -23,6 +23,13 @@
   "author": "James",
   "license": "ISC",
   "dependencies": {
+    "@types/jasmine": "^2.5.47",
+    "@types/node": "^7.0.12",
+    "@types/request": "0.0.42",
+    "@types/request-promise": "^4.1.33",
+    "@types/restify": "^2.0.42",
+    "@types/underscore": "^1.8.0",
+    "typescript": "^2.3.2",
     "botbuilder": "^3.7.0",
     "restify": "^4.3.0",
     "request": "^2.81.0",
@@ -30,15 +37,8 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.47",
-    "@types/node": "^7.0.12",
-    "@types/request": "0.0.42",
-    "@types/request-promise": "^4.1.33",
-    "@types/restify": "^2.0.42",
-    "@types/underscore": "^1.8.0",
     "jasmine": "^2.5.3",
     "saywhen": "^1.1.0",
-    "tslint": "^5.0.0",
-    "typescript": "^2.2.2"
+    "tslint": "^5.0.0"
   }
 }
