@@ -4,14 +4,21 @@
   "description": "",
   "main": "dist/server.js",
   "config": {},
+  "engines": {
+    "node": "7.9.0",
+    "npm": "4.2.0"
+  },
   "scripts": {
-    "prepare": "tsc",
+    "postinstall": "npm run build",	
     "start": "node dist/server.js",
-    "debug": "tsc && node --debug-brk=33295 --nolazy dist/server.js",
-    "test": "tsc && jasmine JASMINE_CONFIG_PATH=jasmine.json",
-    "test-cover": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remaped-summary.txt -t text-summary && type coverage\\coverage-remaped-summary.txt",
-    "test-cover-detail": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remaped.txt -t text && type coverage\\coverage-remaped.txt",
-    "test-cover-report": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none  && remap-istanbul -i coverage/coverage.json -o coverage/lcov-report-remapped -t html && start coverage/lcov-report-remapped/index.html"
+	"build": "tsc",
+	"lint": "tslint src/**/*.ts -t verbose",
+    "debug": "npm run build && node --debug-brk=33295 --nolazy dist/server.js",
+	"test": "npm run build && jasmine JASMINE_CONFIG_PATH=jasmine.json",
+    "_test-cover": "npm run build && istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json --include-all-sources --print none",
+    "test-cover-summary": "npm run _test-cover && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remaped-summary.txt -t text-summary && type coverage\\coverage-remaped-summary.txt",
+    "test-cover-detail": "npm run _test-cover && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remaped.txt -t text && type coverage\\coverage-remaped.txt",
+    "test-cover-report": "npm run _test-cover && remap-istanbul -i coverage/coverage.json -o coverage/lcov-report-remapped -t html && start coverage/lcov-report-remapped/index.html"
   },
   "author": "James",
   "license": "ISC",
