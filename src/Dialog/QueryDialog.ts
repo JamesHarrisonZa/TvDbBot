@@ -54,7 +54,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		var seriesResult = seriesResults[0]; //ToDo: Ask the user to choose if multiple choices
 
 		if(seriesResult.Status === SeriesStatus.Ended) {
-			session.send('That series has ended :('); //ToDo: Add random inputs
+			session.send('Oh dear. That series has ended :('); //ToDo: Add random inputs
 			return;
 		}
 
