@@ -27,9 +27,9 @@ server.post('/api/messages', connector.listen());
 bot.use({
 	botbuilder: (session, next) => {
 
-		session.send('debugging: source= ' + session.message.source + ', isGroup: ' + session.message.address.conversation.isGroup + ', text: ' + session.message.text);
+		session.send('debugging: source= ' + session.message.source + ', isGroup: ' + session.conversationData.isGroup + ', text: ' + session.message.text);
 
-		if (session.message.source === 'slack' && session.message.address.conversation.isGroup && !session.message.text.includes('@seriesalerter')) {
+		if (session.message.source === 'slack' && session.conversationData.isGroup && !session.message.text.includes('@seriesalerter')) {
 			session.cancelDialog(0);
 		}
 		return next();
