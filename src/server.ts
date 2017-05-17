@@ -1,5 +1,8 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
+
+import * as util from 'util';
+
 import { GreetingDialog as GreetingDialog } from './Dialog/GreetingDialog';
 import { ApologyDialog as ApologyDialog } from './Dialog/ApologyDialog';
 import { QueryDialog as QueryDialog } from './Dialog/QueryDialog';
@@ -27,11 +30,22 @@ server.post('/api/messages', connector.listen());
 bot.use({
 	botbuilder: (session, next) => {
 
-		session.send('debugging: source= ' + session.message.source + ', isGroup: ' + session.conversationData.isGroup + ', text: ' + session.message.text);
+		session.send('session= ' + util.inspect(session));
 
-		if (session.message.source === 'slack' && session.conversationData.isGroup && !session.message.text.includes('@seriesalerter')) {
-			session.cancelDialog(0);
+		// if (session.message.source === 'slack' && session.conversationData.isGroup && !session.message.text.includes('@seriesalerter')) {
+		// 	session.cancelDialog(0);
+		// }
+
+		if (!session.userData.accessToken) {
+			var restClient = new RequestRestClient();
+			var loginRequest = new LoginRequest();
+			restClient.Execute<ILoginResponse>(loginRequest)
+				.then(loginResponse => {
+					session.userData.accessToken = loginResponse.token;
+					session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
+				});
 		}
+
 		return next();
 	},
 });
@@ -45,18 +59,18 @@ var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 bot.dialog('/', dialog);
 
 //ToDo: Find some other way other than dialog.onBegin to get the access Token
-dialog.onBegin((session, args, next) => {
+// dialog.onBegin((session, args, next) => {
 
-	if (!session.userData.accessToken) {
-		var restClient = new RequestRestClient();
-		var loginRequest = new LoginRequest();
-		restClient.Execute<ILoginResponse>(loginRequest)
-			.then(loginResponse => {
-				session.userData.accessToken = loginResponse.token;
-				session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
-			});
-	}
-});
+// 	if (!session.userData.accessToken) {
+// 		var restClient = new RequestRestClient();
+// 		var loginRequest = new LoginRequest();
+// 		restClient.Execute<ILoginResponse>(loginRequest)
+// 			.then(loginResponse => {
+// 				session.userData.accessToken = loginResponse.token;
+// 				session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
+// 			});
+// 	}
+// });
 
 dialog.onDefault(new ApologyDialog());
 
