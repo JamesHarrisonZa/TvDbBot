@@ -23,6 +23,17 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
+//ToDo: Refactor if this solves the problem
+bot.use({
+	botbuilder: (session, next) => {
+
+		if (session.message.source === 'slack' && session.message.address.conversation.isGroup && !session.message.text.includes('@seriesalerter')) {
+			session.cancelDialog(0);
+		}
+		return next();
+	},
+});
+
 // Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
 var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/79e0d6a8-357b-4f9c-a7f6-85304ad5c675?subscription-key=69907932bde64aa091e26aaf99f8fb4a&verbose=true&timezoneOffset=0.0&spellCheck=true&q=';
 var recognizer = new builder.LuisRecognizer(model);
@@ -34,7 +45,7 @@ bot.dialog('/', dialog);
 //ToDo: Find some other way other than dialog.onBegin to get the access Token
 dialog.onBegin((session, args, next) => {
 
-	if(!session.userData.accessToken) {
+	if (!session.userData.accessToken) {
 		var restClient = new RequestRestClient();
 		var loginRequest = new LoginRequest();
 		restClient.Execute<ILoginResponse>(loginRequest)
