@@ -30,7 +30,7 @@
     "@types/restify": "^2.0.42",
     "@types/underscore": "^1.8.0",
     "typescript": "^2.3.2",
-    "botbuilder": "^3.7.0",
+    "botbuilder": "^3.8.2",
     "restify": "^4.3.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
