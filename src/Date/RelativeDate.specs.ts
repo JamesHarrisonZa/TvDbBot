@@ -4,8 +4,6 @@ const when = require('saywhen');
 
 describe('RelativeDate', ()=> {
 
-	// yyyy/m/d
-
 	describe('Given a current date of Sunday 1st Jan 2017', () => {
 
 		const currentDate = new Date('2017-01-01');
