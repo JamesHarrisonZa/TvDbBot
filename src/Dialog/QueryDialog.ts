@@ -1,8 +1,9 @@
 import * as builder from 'botbuilder';
 import * as _ from 'underscore';
-import { RequestRestClient } from '../Rest/Client/RequestRestClient';
 import { Query } from '../Actions/Query';
+import { RelativeDate } from '../Date/RelativeDate';
 import { SeriesStatus } from '../Actions/SeriesStatus';
+import { RequestRestClient } from '../Rest/Client/RequestRestClient';
 
 export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 
@@ -27,7 +28,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const seriesDetails = builder.EntityRecognizer.findAllEntities(result.entities, 'SeriesDetail');
 		const series = builder.EntityRecognizer.findAllEntities(result.entities, 'Series');
 
-		//Displaying Output. Will remove
+		//Debugging Output. Will remove
 		let output = '--<< LUIS results >>--';
 		if (seriesDetails.length !== 0) {
 			const seriesDetailsEntities = this.getEntitiesFromCollection(seriesDetails);
@@ -61,7 +62,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const seriesId = seriesResult.Id;
 		const latestSeason = await query.GetLatestSeason(seriesId);
 		const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
-
-		session.send(nextEpisodeDate.toDateString());
+		const relativeDate = new RelativeDate(new Date(), nextEpisodeDate).Date;
+		session.send(relativeDate);
 	};
 }
