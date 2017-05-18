@@ -28,21 +28,32 @@ var model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/79e0d6a8-
 var recognizer = new builder.LuisRecognizer(model);
 var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 
+//Middleware to get new access tokens
+bot.use({
+	botbuilder: (session, next) => {
+
+		try {
+			console.log('Checking access token: ' + session.userData.accessToken);
+
+			if (!session.userData.accessToken) {
+				var restClient = new RequestRestClient();
+				var loginRequest = new LoginRequest();
+				restClient.Execute<ILoginResponse>(loginRequest)
+					.then(loginResponse => {
+						session.userData.accessToken = loginResponse.token;
+						session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
+					});
+			}
+			return next();
+		} catch (exception) {
+			console.log(exception);
+			session.send('Something went wrong :(' + exception);
+		}
+	},
+});
+
 // Create dialogs
 bot.dialog('/', dialog);
-
- dialog.onBegin((session, args, next) => {
-
- 	if (!session.userData.accessToken) {
- 		var restClient = new RequestRestClient();
- 		var loginRequest = new LoginRequest();
- 		restClient.Execute<ILoginResponse>(loginRequest)
- 			.then(loginResponse => {
- 				session.userData.accessToken = loginResponse.token;
- 				session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
- 			});
- 	}
- });
 
 dialog.onDefault(new ApologyDialog());
 
