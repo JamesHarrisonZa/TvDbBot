@@ -1,3 +1,7 @@
+--<< GENERAL TODO >>--
+
+~More randomness in the bot responses
+
 --<< QUERY >>--
 
 ~Ask the user to choose if multiple choices are returned from the API
@@ -16,7 +20,7 @@
 
 ~Heroku. https://dashboard.heroku.com/login
 
---<< Known Issues >>--
+--<< KNOWN ISSUES >>--
 
 ~Adding to public Slack channel. Bot will respond to every message and not only when its mentioned.
 
