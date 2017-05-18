@@ -1,9 +1,6 @@
 --<< QUERY >>--
 
-~Convert raw Date into more relevent date. 
-	eg) Today, Tomorrow, This Wednesday, Next week Friday. Two months from now.
 ~Ask the user to choose if multiple choices are returned from the API
-~Differentiate between 'next', 'first', 'last'
 
 --<< ALERTS >>--
 
@@ -13,10 +10,16 @@
 ~I need to store these alerts somewhere
 ~I need something that will trigger the alerts
 
---<< Host >>--
+~NoSql Database, code rather then stored proc
+
+--<< HOST >>--
 
 ~Heroku. https://dashboard.heroku.com/login
 
 --<< Known Issues >>--
 
 ~Adding to public Slack channel. Bot will respond to every message and not only when its mentioned.
+
+--<< CONSIDERATIONS >>--
+
+~Query: Differentiate between 'next', 'first', 'last'. Would the user really want to know this?
