@@ -98,7 +98,7 @@ describe('RelativeDate', ()=> {
 
 			const compareDate = new Date('2020-01-01');
 
-			fit('should return a relative date of: "In 3 years, Wednesday 1 January 2020"', () => {
+			it('should return a relative date of: "In 3 years, Wednesday 1 January 2020"', () => {
 
 			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
