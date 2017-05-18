@@ -56,13 +56,8 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 			const seriesId = seriesResult.Id;
 			const latestSeason = await query.GetLatestSeason(seriesId);
 			const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
-
-			session.send(nextEpisodeDate.toDateString());
-			//const relativeDate = new RelativeDate(new Date(), nextEpisodeDate).Date;
-			//session.send(relativeDate);
-		// } catch (ex) {
-		// 	session.send(ex);
-		// }
+			const relativeDate = new RelativeDate(new Date(), nextEpisodeDate).Date;
+			session.send(relativeDate);
 	};
 
 	private getEntitiesFromCollection = function (collection: Array<builder.IEntity>): Array<string> {
