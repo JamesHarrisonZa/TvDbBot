@@ -27,16 +27,20 @@ server.post('/api/messages', connector.listen());
 bot.use({
 	botbuilder: (session, next) => {
 
-		if (!session.userData.accessToken) {
-			var restClient = new RequestRestClient();
-			var loginRequest = new LoginRequest();
-			restClient.Execute<ILoginResponse>(loginRequest)
-				.then(loginResponse => {
-					session.userData.accessToken = loginResponse.token;
-					session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
-				});
+		try {
+			if (!session.userData.accessToken) {
+				var restClient = new RequestRestClient();
+				var loginRequest = new LoginRequest();
+				restClient.Execute<ILoginResponse>(loginRequest)
+					.then(loginResponse => {
+						session.userData.accessToken = loginResponse.token;
+						session.send('Ready to anwser your questions'); //NOTE: if you dont do this, the session state doesnt get updated properly.
+					});
+			}
+			return next();
+		} catch (exception) {
+			session.send('Something went wrong :(' + exception);
 		}
-		return next();
 	},
 });
 

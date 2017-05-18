@@ -15,7 +15,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 
 	private RunQuery = async function (session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): Promise<any> {
 
-		try {
+		//try {
 			const accessToken = session.userData.accessToken;
 
 			//Get Entities
@@ -56,11 +56,13 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 			const seriesId = seriesResult.Id;
 			const latestSeason = await query.GetLatestSeason(seriesId);
 			const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
-			const relativeDate = new RelativeDate(new Date(), nextEpisodeDate).Date;
-			session.send(relativeDate);
-		} catch (ex) {
-			session.send(ex);
-		}
+
+			session.send(nextEpisodeDate.toDateString());
+			//const relativeDate = new RelativeDate(new Date(), nextEpisodeDate).Date;
+			//session.send(relativeDate);
+		// } catch (ex) {
+		// 	session.send(ex);
+		// }
 	};
 
 	private getEntitiesFromCollection = function (collection: Array<builder.IEntity>): Array<string> {
