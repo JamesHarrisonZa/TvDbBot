@@ -1,8 +1,5 @@
 --<< GENERAL TODO >>--
 
-~More randomness in the bot responses
-~Add Help intent. Which will show some example questions
-
 --<< QUERY >>--
 
 ~Ask the user to choose if multiple choices are returned from the API
@@ -28,3 +25,5 @@
 --<< CONSIDERATIONS >>--
 
 ~Query: Differentiate between 'next', 'first', 'last'. Would the user really want to know this?
+~Query: How many episodes left?
+~Query: What other info? S02:E10 ? 
