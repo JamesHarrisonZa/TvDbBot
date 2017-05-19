@@ -1,6 +1,7 @@
 --<< GENERAL TODO >>--
 
 ~More randomness in the bot responses
+~Add Help intent. Which will show some example questions
 
 --<< QUERY >>--
 

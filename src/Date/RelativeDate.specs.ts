@@ -1,8 +1,8 @@
-import {RelativeDate} from './RelativeDate';
+import { RelativeDate } from './RelativeDate';
 
 const when = require('saywhen');
 
-describe('RelativeDate', ()=> {
+describe('RelativeDate', () => {
 
 	describe('Given a current date of Sunday 1st Jan 2017', () => {
 
@@ -26,7 +26,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "Tomorrow"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('Tomorrow');
 			});
@@ -38,7 +38,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "This coming Tuesday"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('This coming Tuesday');
 			});
@@ -50,7 +50,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "Next week Sunday"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('Next week Sunday');
 			});
@@ -62,7 +62,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "Next week Friday"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('Next week Friday');
 			});
@@ -74,7 +74,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "In 2 weeks, Sunday 15 January"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('In 2 weeks, Sunday 15 January');
 			});
@@ -86,7 +86,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "Next year, Monday 1 January"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('Next year, Monday 1 January');
 			});
@@ -98,7 +98,7 @@ describe('RelativeDate', ()=> {
 
 			it('should return a relative date of: "In 3 years, Wednesday 1 January 2020"', () => {
 
-			const relativeDate = new RelativeDate(currentDate, compareDate).Date;
+				const relativeDate = new RelativeDate(currentDate, compareDate).Date;
 
 				expect(relativeDate).toBe('In 3 years, Wednesday 1 January 2020');
 			});
