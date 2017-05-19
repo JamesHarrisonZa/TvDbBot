@@ -25,5 +25,6 @@
 --<< CONSIDERATIONS >>--
 
 ~Query: Differentiate between 'next', 'first', 'last'. Would the user really want to know this?
+~Query: Whats the most recent episode? S02:E09?
 ~Query: How many episodes left?
-~Query: What other info? S02:E10 ? 
+~Query: What other info? S02:E10?
