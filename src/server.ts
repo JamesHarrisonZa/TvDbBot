@@ -1,13 +1,13 @@
 import * as restify from 'restify';
 import * as builder from 'botbuilder';
-import { GreetingDialog as GreetingDialog } from './Dialog/GreetingDialog';
-import { ApologyDialog as ApologyDialog } from './Dialog/ApologyDialog';
-import { QueryDialog as QueryDialog } from './Dialog/QueryDialog';
-import { AlertDialog as AlertDialog } from './Dialog/AlertDialog';
-
-import { RequestRestClient as RequestRestClient } from './Rest/Client/RequestRestClient';
-import { LoginRequest as LoginRequest } from './Rest/Requests/TvDb/LoginRequest';
-import { ILoginResponse as ILoginResponse } from './Rest/Responses/TvDb/ILoginResponse';
+import { GreetingDialog } from './Dialog/GreetingDialog';
+import { ApologyDialog } from './Dialog/ApologyDialog';
+import { QueryDialog } from './Dialog/QueryDialog';
+import { AlertDialog } from './Dialog/AlertDialog';
+import { HelpDialog } from './Dialog/HelpDialog';
+import { RequestRestClient } from './Rest/Client/RequestRestClient';
+import { LoginRequest } from './Rest/Requests/TvDb/LoginRequest';
+import { ILoginResponse } from './Rest/Responses/TvDb/ILoginResponse';
 
 // Setup Restify Server
 const server = restify.createServer();
@@ -60,3 +60,5 @@ dialog.matches('Greet', new GreetingDialog());
 dialog.matches('Query', new QueryDialog());
 
 dialog.matches('Alert', new AlertDialog());
+
+dialog.matches('Help', new HelpDialog());
