@@ -1,8 +1,10 @@
 import * as builder from 'botbuilder';
-import * as _ from 'underscore';
-import { RequestRestClient } from '../Rest/Client/RequestRestClient';
 import { Query } from '../Actions/Query';
+import { RelativeDate } from '../Date/RelativeDate';
 import { SeriesStatus } from '../Actions/SeriesStatus';
+import { RequestRestClient } from '../Rest/Client/RequestRestClient';
+import { SeriesOverApology } from '../Message/SeriesOverApology';
+import { NoResultsApology } from '../Message/NoResultsApology';
 
 export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 
@@ -12,40 +14,23 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		this.push(this.RunQuery);
 	}
 
-	private getEntitiesFromCollection = function (collection: Array<builder.IEntity>): Array<string> {
-		const entities = collection.map((item) => {
-			return item.entity;
-		});
-		return entities;
-	};
-
 	private RunQuery = async function (session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): Promise<any> {
 
 		const accessToken = session.userData.accessToken;
 
-		//Get Entities
+		//Get LUIS Entities
 		const seriesDetails = builder.EntityRecognizer.findAllEntities(result.entities, 'SeriesDetail');
 		const series = builder.EntityRecognizer.findAllEntities(result.entities, 'Series');
 
-		//Displaying Output. Will remove
-		let output = '--<< LUIS results >>--';
-		if (seriesDetails.length !== 0) {
-			const seriesDetailsEntities = this.getEntitiesFromCollection(seriesDetails);
-			output += '\n SeriesDetail: ' + seriesDetailsEntities;
-		}
-		if (series.length !== 0) {
-			const seriesEntities = this.getEntitiesFromCollection(series);
-			output += '\n Series: ' + seriesEntities;
-		}
-		console.log(output);
+		this.LogLuisEntities(seriesDetails, series);
 
 		if (series.length === 0) {
-			session.send('Could not find that series :('); //ToDo: Add random inputs
+			session.send(new NoResultsApology().Phrases);
 			return;
 		}
 
-		const luisOutput = this.getEntitiesFromCollection(series).join(' ');
-		const seriesToSearch = luisOutput.replace(' ’ ','').replace(' \' ', ''); //Luis is adding spaces around quotes, need to remove quotes for the api
+		const luisOutput = this.GetEntitiesFromCollection(series).join(' ');
+		const seriesToSearch = luisOutput.replace(' ’ ', '').replace(' \' ', ''); //Luis is adding spaces around quotes, need to remove quotes for the api
 
 		const restClient = new RequestRestClient();
 		const query = new Query(restClient, accessToken);
@@ -53,15 +38,36 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const seriesResults = await query.GetSeries(seriesToSearch);
 		var seriesResult = seriesResults[0]; //ToDo: Ask the user to choose if multiple choices
 
-		if(seriesResult.Status === SeriesStatus.Ended) {
-			session.send('That series has ended :('); //ToDo: Add random inputs
+		if (seriesResult.Status === SeriesStatus.Ended) {
+			session.send(new SeriesOverApology().Phrases);
 			return;
 		}
 
 		const seriesId = seriesResult.Id;
 		const latestSeason = await query.GetLatestSeason(seriesId);
 		const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
-
-		session.send(nextEpisodeDate.toDateString());
+		const relativeDate = new RelativeDate(new Date(), nextEpisodeDate).Date;
+		session.send(relativeDate);
 	};
+
+	private LogLuisEntities(seriesDetails: any, series: any): void {
+
+		let output = '--<< LUIS results >>--';
+		if (seriesDetails.length !== 0) {
+			const seriesDetailsEntities = this.GetEntitiesFromCollection(seriesDetails);
+			output += '\n SeriesDetail: ' + seriesDetailsEntities;
+		}
+		if (series.length !== 0) {
+			const seriesEntities = this.GetEntitiesFromCollection(series);
+			output += '\n Series: ' + seriesEntities;
+		}
+		console.log(output);
+	}
+
+	private GetEntitiesFromCollection(collection: Array<builder.IEntity>): Array<string> {
+		const entities = collection.map((item) => {
+			return item.entity;
+		});
+		return entities;
+	}
 }
