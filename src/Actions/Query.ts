@@ -53,7 +53,7 @@ export class Query {
 				return new Date(episodeData.firstAired);
 			})
 			.filter((airedDate) => {
-				return airedDate > todaysDate;
+				return airedDate >= todaysDate;
 			})
 			.sort();
 
