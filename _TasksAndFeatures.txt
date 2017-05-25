@@ -2,6 +2,7 @@
 
 --<< QUERY >>--
 
+~Exception handling, API errors
 ~Ask the user to choose if multiple choices are returned from the API
 
 --<< ALERTS >>--
