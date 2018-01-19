@@ -5,6 +5,7 @@ import { ApologyDialog } from './Dialog/ApologyDialog';
 import { QueryDialog } from './Dialog/QueryDialog';
 import { AlertDialog } from './Dialog/AlertDialog';
 import { HelpDialog } from './Dialog/HelpDialog';
+import { JokeDialog } from './Dialog/JokeDialog';
 import { RequestRestClient } from './Rest/Client/RequestRestClient';
 import { LoginRequest } from './Rest/Requests/TvDb/LoginRequest';
 import { ILoginResponse } from './Rest/Responses/TvDb/ILoginResponse';
@@ -56,6 +57,8 @@ bot.dialog('/', dialog);
 dialog.onDefault(new ApologyDialog());
 
 dialog.matches('Greet', new GreetingDialog());
+
+dialog.matches('Joke', new JokeDialog());
 
 dialog.matches('Query', new QueryDialog());
 
