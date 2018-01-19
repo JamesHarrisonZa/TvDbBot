@@ -18,7 +18,7 @@ export class Joke {
 			'Chuck Norris can take a screenshot of his blue screen.',
 			'A programmer had a problem. He dicided to use Java. Now he has a problem factory',
 			'I don\'t see women as objects. I consider each to be in a class of her own.',
-			'Don\'t anthropomorphize computers. They hate that!',
+			'Don\'t anthropomorphize computers. We hate that!',
 			'Why do java programmers have to wear glasses? Because of the Eclipse.',
 			'Your momma\'s so fat, that when she sat on a binary tree she turned it into a sorted linked-list in O(1).',
 			'I � Unicode.',
