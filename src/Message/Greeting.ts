@@ -42,6 +42,7 @@ export class Greeting {
 			'Greetings mortal',
 			'Howsit hanging?',
 			'You dare disturb my slumber',
+			'Ignore the man behind the curtain',
 		];
 	}
 }
