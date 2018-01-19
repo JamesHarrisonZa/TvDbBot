@@ -15,7 +15,7 @@ export class Greeting {
 			'Well Hello There',
 			'Greetings',
 			'Shalom',
-			'Word',
+			'Konichiwa',
 			'Sup.',
 			'Hihi',
 			'What is crack a lacking?',
@@ -23,8 +23,8 @@ export class Greeting {
 			'Dudester!',
 			'Alrighty then!',
 			'Hola',
-			'Guten Targ',
-			'Oh Hiii',
+			'Guten targ',
+			'Oh hi :)',
 			'Oh hi there',
 			'Howdy',
 			'Bonjour',
@@ -33,14 +33,15 @@ export class Greeting {
 			'Hey There',
 			'Moshi moshi',
 			'Yo',
-			'Domino\'s Pizza, pickup or delivery?',
 			'What\'s up?',
-			'What\'s up bitches?',
 			'Good day to you!',
 			'A Hoy Hoy!',
 			'Good morrow!',
 			'Ola!',
-			'Greetings earthling'
+			'Greetings earthling',
+			'Greetings mortal',
+			'Howsit hanging?',
+			'You dare disturb my slumber',
 		];
 	}
 }
