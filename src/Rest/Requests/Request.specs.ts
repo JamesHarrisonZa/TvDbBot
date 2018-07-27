@@ -5,18 +5,23 @@ describe('Request', () => {
 
 	describe('LoginRequest', () => {
 
-		const loginRequest = new LoginRequest();
-
 		it('Should set UriOptions', () => {
-			expect(loginRequest.uriOptions).toBeDefined();
+			const sut = new LoginRequest();
+			const actual = sut.uriOptions;
+			expect(actual).toBeDefined();
 		});
 
 		it('Should be a POST request', () => {
-			expect(loginRequest.uriOptions.method).toBe('POST');
+			const sut = new LoginRequest();
+			const actual = sut.uriOptions.method;
+			const expected = 'POST';
+			expect(actual).toEqual(expected);
 		});
 
 		it('Should have body content', () => {
-			expect(loginRequest.uriOptions.body).toBeDefined();
+			const sut = new LoginRequest();
+			const actual = sut.uriOptions.body;
+			expect(actual).toBeDefined();
 		});
 	});
 
@@ -24,8 +29,6 @@ describe('Request', () => {
 
 		const accessToken = '1234';
 		const seriesName = 'Sopranos';
-
-		//const searchSeriesRequest = new SearchSeriesRequest(accessToken, seriesName);
 
 		it('Should set UriOptions', () => {
 			const sut = new SearchSeriesRequest(accessToken, seriesName);
