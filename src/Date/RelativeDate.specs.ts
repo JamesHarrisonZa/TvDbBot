@@ -14,9 +14,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "Today"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('Today');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'Today';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -26,9 +27,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "Tomorrow"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('Tomorrow');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'Tomorrow';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -38,9 +40,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "This coming Tuesday"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('This coming Tuesday');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'This coming Tuesday';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -50,9 +53,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "Next week Sunday"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('Next week Sunday');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'Next week Sunday';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -62,9 +66,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "Next week Friday"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('Next week Friday');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'Next week Friday';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -74,9 +79,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "In 2 weeks, Sunday 15 January"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('In 2 weeks, Sunday 15 January');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'In 2 weeks, Sunday 15 January';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -86,9 +92,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "Next year, Monday 1 January"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('Next year, Monday 1 January');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'Next year, Monday 1 January';
+				expect(actual).toEqual(expected);
 			});
 		});
 
@@ -98,9 +105,10 @@ describe('RelativeDate', () => {
 
 			it('should return a relative date of: "In 3 years, Wednesday 1 January 2020"', () => {
 
-				const relativeDate = new RelativeDate(currentDate, compareDate).date;
-
-				expect(relativeDate).toBe('In 3 years, Wednesday 1 January 2020');
+				const sut = new RelativeDate(currentDate, compareDate);
+				const actual = sut.date;
+				const expected = 'In 3 years, Wednesday 1 January 2020';
+				expect(actual).toEqual(expected);
 			});
 		});
 
