@@ -1,12 +1,14 @@
-export class SeriesOverApology {
+import { IMessage } from './IMessage';
 
-	public readonly Phrases;
+export class SeriesOverApology implements IMessage {
+
+	public readonly phrases;
 
 	constructor() {
-		this.Phrases = this.GetPhrases();
+		this.phrases = this.getPhrases();
 	}
 
-	private GetPhrases(): string[] {
+	private getPhrases(): string[] {
 		return [
 			'Oh dear. That series has ended :(',
 			'That series is over :( I hope they make some more.'

@@ -35,7 +35,7 @@ var accessToken;
 function setNewAccessToken(): void {
 	const restClient = new RequestRestClient();
 	var loginRequest = new LoginRequest();
-	restClient.Execute<ILoginResponse>(loginRequest)
+	restClient.execute<ILoginResponse>(loginRequest)
 		.then(loginResponse => {
 			accessToken = loginResponse.token;
 		});

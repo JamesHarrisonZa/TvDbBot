@@ -1,22 +1,22 @@
 import { LoginRequest } from './TvDb/LoginRequest';
 import { SearchSeriesRequest } from './TvDb/SearchSeriesRequest';
 
-describe('RequestRequest', () => {
+describe('Request', () => {
 
 	describe('LoginRequest', () => {
 
 		const loginRequest = new LoginRequest();
 
 		it('Should set UriOptions', () => {
-			expect(loginRequest.UriOptions).toBeDefined();
+			expect(loginRequest.uriOptions).toBeDefined();
 		});
 
 		it('Should be a POST request', () => {
-			expect(loginRequest.UriOptions.method).toBe('POST');
+			expect(loginRequest.uriOptions.method).toBe('POST');
 		});
 
 		it('Should have body content', () => {
-			expect(loginRequest.UriOptions.body).toBeDefined();
+			expect(loginRequest.uriOptions.body).toBeDefined();
 		});
 	});
 
@@ -26,22 +26,25 @@ describe('RequestRequest', () => {
 		const seriesName = 'Sopranos';
 
 		const searchSeriesRequest = new SearchSeriesRequest(accessToken, seriesName);
-		const searchSeriesUriOptions = searchSeriesRequest.UriOptions;
 
 		it('Should set UriOptions', () => {
-			expect(searchSeriesRequest.UriOptions).toBeDefined();
+			expect(searchSeriesRequest.uriOptions).toBeDefined();
 		});
 
 		it('Should be a GET request', () => {
-			expect(searchSeriesRequest.UriOptions.method).toBe('GET');
+			expect(searchSeriesRequest.uriOptions.method).toBe('GET');
 		});
 
 		it('Should set search query parameter', () => {
-			expect(searchSeriesRequest.UriOptions.uri).toContain('?name=Sopranos');
+			expect(searchSeriesRequest.uriOptions.uri).toContain('?name=Sopranos');
 		});
 
 		it('Should set Authorization header', () => {
-			expect(searchSeriesRequest.UriOptions.headers.Authorization).toBe('Bearer 1234');
+			expect(searchSeriesRequest.uriOptions.headers.Authorization).toBe('Bearer 1234');
+		});
+
+		it('Should set searchSeriesUriOptions', () => {
+			expect(searchSeriesRequest.uriOptions).toBeDefined();
 		});
 	});
 });

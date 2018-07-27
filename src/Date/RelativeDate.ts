@@ -1,6 +1,6 @@
 export class RelativeDate {
 
-	public readonly Date: string;
+	public readonly date: string;
 	private readonly _days: string[];
 	private readonly _months: string[];
 
@@ -8,10 +8,10 @@ export class RelativeDate {
 
 		this._days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 		this._months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-		this.Date = this.GetRelativeDate(currentDate, compareDate);
+		this.date = this.getRelativeDate(currentDate, compareDate);
 	}
 
-	private GetRelativeDate(currentDate: Date, compareDate: Date): string {
+	private getRelativeDate(currentDate: Date, compareDate: Date): string {
 
 		const seconds = Math.round((compareDate.getTime() - currentDate.getTime()) / 1000);
 		const minutes = seconds / 60;
@@ -24,51 +24,51 @@ export class RelativeDate {
 		const displayDayOfTheMonth = compareDate.getDate();
 		const displayMonth = this._months[compareDate.getMonth()];
 
-		if (this.IsToday(days)) {
+		if (this.isToday(days)) {
 			return 'Today';
-		} else if(this.IsTomorrow(days)) {
+		} else if(this.isTomorrow(days)) {
 			return 'Tomorrow';
-		} else if (this.IsThisWeek(days, weeks)) {
+		} else if (this.isThisWeek(days, weeks)) {
 			return `This coming ${displayWeekDay}`;
-		} else if (this.IsNextWeek(weeks)) {
+		} else if (this.isNextWeek(weeks)) {
 			return `Next week ${displayWeekDay}`;
-		} else if (this.IsThisYear(weeks, years)) {
+		} else if (this.isThisYear(weeks, years)) {
 			const roundedWeeks = Math.floor(weeks);
 			return `In ${roundedWeeks} weeks, ${displayWeekDay} ${displayDayOfTheMonth} ${displayMonth}`;
-		} else if (this.IsNextYear(years)) {
+		} else if (this.isNextYear(years)) {
 			return `Next year, ${displayWeekDay} ${displayDayOfTheMonth} ${displayMonth}`;
-		} else if (this.IsYearsAway(years)) {
+		} else if (this.isYearsAway(years)) {
 			return `In ${years} years, ${displayWeekDay} ${displayDayOfTheMonth} ${displayMonth} ${compareDate.getFullYear()}`;
 		} else {
 			return compareDate.toDateString();
 		}
 	}
 
-	private IsToday(days: number): boolean {
+	private isToday(days: number): boolean {
 		return days === 0;
 	}
 
-	private IsTomorrow(days: number): boolean {
+	private isTomorrow(days: number): boolean {
 		return days === 1;
 	}
 
-	private IsThisWeek(days: number, weeks: number): boolean {
+	private isThisWeek(days: number, weeks: number): boolean {
 		return days > 1 && weeks < 1;
 	}
 
-	private IsNextWeek(weeks: number): boolean {
+	private isNextWeek(weeks: number): boolean {
 		return weeks >= 1 && weeks < 2;
 	}
 
-	private IsThisYear(weeks: number, years: number): boolean {
+	private isThisYear(weeks: number, years: number): boolean {
 		return weeks >= 2 && years === 0;
 	}
 
-	private IsNextYear(years: number): boolean {
+	private isNextYear(years: number): boolean {
 		return years === 1;
 	}
 
-	private IsYearsAway(years: number): boolean {
+	private isYearsAway(years: number): boolean {
 		return years > 1;
 	}
 }

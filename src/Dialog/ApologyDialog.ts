@@ -6,10 +6,10 @@ export class ApologyDialog extends Array<builder.IDialogWaterfallStep> {
 	constructor() {
 
 		super();
-		this.push(this.Apologise);
+		this.push(this.apologise);
 	}
 
-	private Apologise = function(session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): any{
-			session.send(new Apology().Phrases);
+	private apologise = function(session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): any {
+			session.send(new Apology().phrases);
 	};
 }

@@ -10,8 +10,8 @@ describe('Greeting', () => {
 
 	it('Should have collection of phrases', () => {
 
-		expect(greeting.Phrases).not.toBe(null);
-		expect(greeting.Phrases.length > 0).toBe(true);
+		expect(greeting.phrases).not.toBe(null);
+		expect(greeting.phrases.length > 0).toBe(true);
 	});
 });
 
@@ -21,8 +21,8 @@ describe('Apology', () => {
 
 	it('Should have collection of phrases', () => {
 
-		expect(apology.Phrases).not.toBe(null);
-		expect(apology.Phrases.length > 0).toBe(true);
+		expect(apology.phrases).not.toBe(null);
+		expect(apology.phrases.length > 0).toBe(true);
 	});
 });
 
@@ -32,8 +32,8 @@ describe('Help', () => {
 
 	it('Should have collection of phrases', () => {
 
-		expect(help.Phrases).not.toBe(null);
-		expect(help.Phrases.length > 0).toBe(true);
+		expect(help.phrases).not.toBe(null);
+		expect(help.phrases.length > 0).toBe(true);
 	});
 });
 
@@ -43,8 +43,8 @@ describe('NoResultsApology', () => {
 
 	it('Should have collection of phrases', () => {
 
-		expect(noResultsApology.Phrases).not.toBe(null);
-		expect(noResultsApology.Phrases.length > 0).toBe(true);
+		expect(noResultsApology.phrases).not.toBe(null);
+		expect(noResultsApology.phrases.length > 0).toBe(true);
 	});
 });
 
@@ -54,7 +54,7 @@ describe('SeriesOverApology', () => {
 
 	it('Should have collection of phrases', () => {
 
-		expect(seriesOverApology.Phrases).not.toBe(null);
-		expect(seriesOverApology.Phrases.length > 0).toBe(true);
+		expect(seriesOverApology.phrases).not.toBe(null);
+		expect(seriesOverApology.phrases.length > 0).toBe(true);
 	});
 });

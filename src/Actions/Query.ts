@@ -18,19 +18,19 @@ export class Query {
 		this._accessToken = accessToken;
 	}
 
-	public async GetSeries(seriesToSearch: string): Promise<Array<SeriesResult>> {
+	public async getSeries(seriesToSearch: string): Promise<Array<SeriesResult>> {
 
 		const searchSeriesRequest = new SearchSeriesRequest(this._accessToken, seriesToSearch);
-		const searchSeriesResponse = await this._restClient.Execute<ISearchSeriesResponse>(searchSeriesRequest);
+		const searchSeriesResponse = await this._restClient.execute<ISearchSeriesResponse>(searchSeriesRequest);
 
 		const seriesResults = searchSeriesResponse.data.map((p) => new SeriesResult(p.id, p.seriesName, p.status));
 		return seriesResults;
 	}
 
-	public async GetLatestSeason(seriesId: number): Promise<number> {
+	public async getLatestSeason(seriesId: number): Promise<number> {
 
 		const seriesIdEpisodesSummaryRequest = new SeriesIdEpisodesSummaryRequest(this._accessToken, seriesId);
-		const seriesIdEpisodesSummaryResponse = await this._restClient.Execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest);
+		const seriesIdEpisodesSummaryResponse = await this._restClient.execute<ISeriesIdEpisodesSummaryResponse>(seriesIdEpisodesSummaryRequest);
 		const airedSeasons = seriesIdEpisodesSummaryResponse.data.airedSeasons;
 
 		const numberAs = (a: number, b: number) => a - b;
@@ -40,21 +40,17 @@ export class Query {
 		return latestSeason;
 	}
 
-	public async GetNextEpisodeDate(seriesId: number, season: number): Promise<Date> { //ToDo: Maybe return more info, overview ?
+	public async getNextEpisodeDate(seriesId: number, season: number, todaysDate: Date): Promise<Date> { //ToDo: Maybe return more info, overview ?
 
 		const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(this._accessToken, seriesId, season);
-		const episodesResponse = await this._restClient.Execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest);
+		const episodesResponse = await this._restClient.execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest);
 
-		const episodesData = episodesResponse.data;
+		console.log('--<< EpisodesResponse >>--');
+		console.log(episodesResponse);
 
-		const todaysDate = new Date();
-		const sortedUnairedDates = episodesData
-			.map((episodeData) => {
-				return new Date(episodeData.firstAired);
-			})
-			.filter((airedDate) => {
-				return airedDate >= todaysDate;
-			})
+		const sortedUnairedDates = episodesResponse.data
+			.map(episodeData => new Date(episodeData.firstAired))
+			.filter(airedDate => airedDate >= todaysDate)
 			.sort();
 
 		return sortedUnairedDates[0];

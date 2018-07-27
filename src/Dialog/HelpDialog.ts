@@ -6,10 +6,10 @@ export class HelpDialog extends Array<builder.IDialogWaterfallStep> {
 	constructor() {
 
 		super();
-		this.push(this.Help);
+		this.push(this.help);
 	}
 
-	private Help = function(session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): any{
-			session.send(new Help().Phrases);
+	private help = function(session: builder.Session, result?: any | builder.IDialogResult<any>, skip?: (results?: builder.IDialogResult<any>) => void): any {
+			session.send(new Help().phrases);
 	};
 }

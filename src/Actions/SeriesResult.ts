@@ -10,9 +10,9 @@ export class SeriesResult {
 		this.Name = name;
 
 		if (status === 'Continuing') {
-			this.Status = SeriesStatus.Continuing;
+			this.Status = SeriesStatus.continuing;
 		} else {
-			this.Status = SeriesStatus.Ended;
+			this.Status = SeriesStatus.ended;
 		}
 	}
 }

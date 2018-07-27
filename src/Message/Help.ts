@@ -1,12 +1,14 @@
-export class Help {
+import { IMessage } from './IMessage';
 
-	public readonly Phrases;
+export class Help implements IMessage {
+
+	public readonly phrases;
 
 	constructor() {
-		this.Phrases = this.GetPhrases();
+		this.phrases = this.getPhrases();
 	}
 
-	private GetPhrases(): string[] {
+	private getPhrases(): string[] {
 		return [
 			'Hi ! Its a pleasure to meet you! My creator and god hasnt given me a proper name yet. ' +
 			'I have watched all the TV and Anime in the world and can let you know when the newest episodes of your favourite series are coming out. ' +

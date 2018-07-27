@@ -1,5 +1,5 @@
 import { IRequest } from '../Requests/IRequest';
 
 export interface IRestClient {
-	Execute<TResponse>(request: IRequest): Promise<TResponse>;
+	execute<TResponse>(request: IRequest): Promise<TResponse>;
 }

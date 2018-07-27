@@ -1,12 +1,14 @@
-export class Joke {
+import { IMessage } from './IMessage';
 
-	public readonly Phrases: string[];
+export class Joke implements IMessage {
+
+	public readonly phrases: string[];
 
 	constructor() {
-		this.Phrases = this.GetPhrases();
+		this.phrases = this.getPhrases();
 	}
 
-	private GetPhrases(): string[] {
+	private getPhrases(): string[] {
 
 		return [
 			'If having coffee in the morning doesnt wake you up, try deleting a production database instead.',

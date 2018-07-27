@@ -1,12 +1,14 @@
-export class NoResultsApology {
+import { IMessage } from './IMessage';
 
-	public readonly Phrases;
+export class NoResultsApology implements IMessage  {
+
+	public readonly phrases;
 
 	constructor() {
-		this.Phrases = this.GetPhrases();
+		this.phrases = this.getPhrases();
 	}
 
-	private GetPhrases(): string[] {
+	private getPhrases(): string[] {
 		return [
 			'Could not find that series :(',
 			'I couldn\'d find that series :(',

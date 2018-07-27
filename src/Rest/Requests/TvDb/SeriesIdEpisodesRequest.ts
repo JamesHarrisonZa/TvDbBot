@@ -1,7 +1,6 @@
-import * as request from 'request';
-import { RequestRequest } from '../RequestRequest';
+import { Request } from '../Request';
 
-export class SeriesIdEpisodesRequest extends RequestRequest {
+export class SeriesIdEpisodesRequest extends Request {
 	constructor(accessToken: string, seriesId: number, season: number) {
 
 		const uriOptions = {

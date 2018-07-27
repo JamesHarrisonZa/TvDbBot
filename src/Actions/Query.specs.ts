@@ -11,7 +11,7 @@ describe('Query', () => {
 
 	describe('When is the next episode of Silicon Valley?', () => {
 
-		const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
+		const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['execute']);
 		const query = new Query(restClient, accessToken);
 
 		const seriesToSearch = 'Silicon Valley';
@@ -33,12 +33,12 @@ describe('Query', () => {
 		describe('Given a current series to search', () => {
 
 			beforeEach(() => {
-				when(restClient.Execute).isCalled.then(() => searchSeriesResponse);
+				when(restClient.execute).isCalled.then(() => searchSeriesResponse);
 			});
 
 			it('should get the search results from the API', async () => {
 
-				const seriesResults = await query.GetSeries(seriesToSearch);
+				const seriesResults = await query.getSeries(seriesToSearch);
 
 				expect(seriesResults).not.toBe(null);
 				expect(seriesResults.length).toBe(1);
@@ -48,15 +48,14 @@ describe('Query', () => {
 
 			it('should tell us the series is continuing', async () => {
 
-				const seriesResults = await query.GetSeries(seriesToSearch);
+				const seriesResults = await query.getSeries(seriesToSearch);
 
-				expect(seriesResults[0].Status).toBe(SeriesStatus.Continuing);
+				expect(seriesResults[0].Status).toBe(SeriesStatus.continuing);
 			});
 		});
 
 		describe('Given a series id', () => {
 
-			const seriesId = 277165;
 			const seriesIdEpisodesSummaryResponse = {
 				data:
 				{
@@ -68,12 +67,12 @@ describe('Query', () => {
 			};
 
 			beforeEach(() => {
-				when(restClient.Execute).isCalledWith(jasmine.any(SeriesIdEpisodesSummaryRequest)).then(() => seriesIdEpisodesSummaryResponse);
+				when(restClient.execute).isCalledWith(jasmine.any(SeriesIdEpisodesSummaryRequest)).then(() => seriesIdEpisodesSummaryResponse);
 			});
 
 			it('should find the latest season', async () => {
 
-				const latestSeason = await query.GetLatestSeason(277165);
+				const latestSeason = await query.getLatestSeason(277165);
 
 				expect(latestSeason).toBe(4);
 			});
@@ -94,12 +93,12 @@ describe('Query', () => {
 			};
 
 			beforeEach(() => {
-				when(restClient.Execute).isCalledWith(jasmine.any(SeriesIdEpisodesRequest)).then(() => seriesIdEpisodesResponse);
+				when(restClient.execute).isCalledWith(jasmine.any(SeriesIdEpisodesRequest)).then(() => seriesIdEpisodesResponse);
 			});
 
 			it('should get the date of the next episode', async () => {
 
-				const nextEpisodeDate = await query.GetNextEpisodeDate(seriesId, latestSeason);
+				const nextEpisodeDate = await query.getNextEpisodeDate(seriesId, latestSeason, new Date('2017-04-23'));
 
 				expect(new Date('2017-04-23').toDateString()).toBe(nextEpisodeDate.toDateString());
 			});
@@ -109,7 +108,7 @@ describe('Query', () => {
 
 	describe('When is the next episode of The Sopranos?', () => {
 
-		const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['Execute']);
+		const restClient = jasmine.createSpyObj<IRestClient>('RestClient', ['execute']);
 		const query = new Query(restClient, accessToken);
 
 		const seriesToSearch = 'The Sopranos';
@@ -131,14 +130,14 @@ describe('Query', () => {
 		describe('Given an old series to search', () => {
 
 			beforeEach(() => {
-				when(restClient.Execute).isCalled.then(() => searchSeriesResponse);
+				when(restClient.execute).isCalled.then(() => searchSeriesResponse);
 			});
 
 			it('should tell us that the series has ended', async () => {
 
-				const seriesResults = await query.GetSeries(seriesToSearch);
+				const seriesResults = await query.getSeries(seriesToSearch);
 
-				expect(seriesResults[0].Status).toBe(SeriesStatus.Ended);
+				expect(seriesResults[0].Status).toBe(SeriesStatus.ended);
 			});
 		});
 	});

@@ -1,12 +1,14 @@
-export class Greeting {
+import { IMessage } from './IMessage';
 
-	public readonly Phrases: string[];
+export class Greeting implements IMessage  {
+
+	public readonly phrases: string[];
 
 	constructor() {
-		this.Phrases = this.GetPhrases();
+		this.phrases = this.getPhrases();
 	}
 
-	private GetPhrases(): string[] {
+	private getPhrases(): string[] {
 
 		return [
 			'Hi',

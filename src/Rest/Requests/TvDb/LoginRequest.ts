@@ -1,6 +1,6 @@
-import { RequestRequest } from '../RequestRequest';
+import { Request } from '../Request';
 
-export class LoginRequest extends RequestRequest {
+export class LoginRequest extends Request {
 
 	constructor() {
 

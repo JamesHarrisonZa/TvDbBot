@@ -1,12 +1,14 @@
-export class Apology {
+import { IMessage } from './IMessage';
 
-	public readonly Phrases;
+export class Apology implements IMessage {
+
+	public readonly phrases;
 
 	constructor() {
-		this.Phrases = this.GetPhrases();
+		this.phrases = this.getPhrases();
 	}
 
-	private GetPhrases(): string[] {
+	private getPhrases(): string[] {
 		return [
 			'I\'m sorry I didn\'t understand',
 			'I\'m sorry, my wires got crossed and something went wrong',

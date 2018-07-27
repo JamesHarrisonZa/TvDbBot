@@ -1,7 +1,6 @@
-import * as request from 'request';
-import { RequestRequest } from '../RequestRequest';
+import { Request } from '../Request';
 
-export class SearchSeriesRequest extends RequestRequest {
+export class SearchSeriesRequest extends Request {
 	constructor(accessToken: string, name: string) {
 
 		const uriOptions = {
