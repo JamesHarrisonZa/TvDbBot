@@ -13,7 +13,7 @@ import { ILoginResponse } from './Rest/Responses/TvDb/ILoginResponse';
 // Setup Restify Server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 4242, () => {
-	console.log('%s listening to %s', server.name, server.url);
+	console.log(`Listening on ${server.name}, ${server.url.replace('[::]', 'localhost')}`);
 });
 
 // Create chat bot
@@ -31,10 +31,10 @@ const dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 
 //Getting a new access token Every 24 Hours
 setInterval(setNewAccessToken, 86400000);
-var accessToken;
+let accessToken;
 function setNewAccessToken(): void {
 	const restClient = new RequestRestClient();
-	var loginRequest = new LoginRequest();
+	const loginRequest = new LoginRequest();
 	restClient.execute<ILoginResponse>(loginRequest)
 		.then(loginResponse => {
 			accessToken = loginResponse.token;
