@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"postinstall": "npm run build",
-		"start": "node dist/server.js",
+		"start": "npm run build && node dist/server.js",
 		"build": "tsc",
 		"lint": "tslint src/**/*.ts -t verbose",
 		"debug": "npm run build && node --debug-brk=33295 --nolazy dist/Server.js",
