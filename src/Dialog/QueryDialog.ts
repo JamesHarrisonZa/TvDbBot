@@ -48,7 +48,7 @@ export class QueryDialog extends Array<builder.IDialogWaterfallStep> {
 		const nextEpisodeDate = await query.getNextEpisodeDate(seriesId, latestSeason, new Date());
 
 		if (!nextEpisodeDate) {
-			session.send('Im sorry im not sure :(');
+			session.send('That show might be between seasons right now');
 			return;
 		}
 
