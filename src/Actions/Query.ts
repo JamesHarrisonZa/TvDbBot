@@ -45,9 +45,6 @@ export class Query {
 		const seriesIdEpisodesRequest = new SeriesIdEpisodesRequest(this._accessToken, seriesId, season);
 		const episodesResponse = await this._restClient.execute<ISeriesIdEpisodesResponse>(seriesIdEpisodesRequest);
 
-		console.log('--<< EpisodesResponse >>--');
-		console.log(episodesResponse);
-
 		const sortedUnairedDates = episodesResponse.data
 			.map(episodeData => new Date(episodeData.firstAired))
 			.filter(airedDate => airedDate >= todaysDate)
