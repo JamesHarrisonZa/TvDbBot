@@ -9,8 +9,8 @@
 		"npm": "4.2.0"
 	},
 	"scripts": {
-		"postinstall": "npm run build",
-		"start": "npm run build && node dist/server.js",
+		"heroku-postbuild": "NODE_ENV=development npm i && NODE_ENV=development npm run-script build",
+		"start": "node dist/server.js",
 		"build": "tsc",
 		"lint": "tslint src/**/*.ts -t verbose",
 		"debug": "npm run build && node --debug-brk=33295 --nolazy dist/Server.js",
@@ -27,8 +27,7 @@
 		"restify": "^4.3.0",
 		"request": "^2.81.0",
 		"request-promise": "^4.2.0",
-		"underscore": "^1.8.3",
-		"typescript": "^2.3.2"
+		"underscore": "^1.8.3"
 	},
 	"devDependencies": {
 		"@types/jasmine": "^2.5.47",
@@ -39,6 +38,7 @@
 		"@types/underscore": "^1.8.0",
 		"jasmine": "^2.5.3",
 		"saywhen": "^1.1.0",
-		"tslint": "^5.0.0"
+		"tslint": "^5.0.0",
+		"typescript": "^2.3.2"
 	}
 }
