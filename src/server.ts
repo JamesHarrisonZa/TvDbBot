@@ -25,7 +25,7 @@ const bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 // Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
-const model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/79e0d6a8-357b-4f9c-a7f6-85304ad5c675?subscription-key=69907932bde64aa091e26aaf99f8fb4a&verbose=true&timezoneOffset=0.0&spellCheck=true&q=';
+const model = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/79e0d6a8-357b-4f9c-a7f6-85304ad5c675?subscription-key=69907932bde64aa091e26aaf99f8fb4a&timezoneOffset=-360&q=';
 const recognizer = new builder.LuisRecognizer(model);
 const dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 
