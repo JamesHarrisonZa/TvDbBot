@@ -27,7 +27,8 @@
 		"restify": "^4.3.0",
 		"request": "^2.81.0",
 		"request-promise": "^4.2.0",
-		"underscore": "^1.8.3"
+		"underscore": "^1.8.3",
+		"typescript": "^2.3.2"
 	},
 	"devDependencies": {
 		"@types/jasmine": "^2.5.47",
@@ -36,7 +37,6 @@
 		"@types/request-promise": "^4.1.33",
 		"@types/restify": "^2.0.42",
 		"@types/underscore": "^1.8.0",
-		"typescript": "^2.3.2",
 		"jasmine": "^2.5.3",
 		"saywhen": "^1.1.0",
 		"tslint": "^5.0.0"
