@@ -17,11 +17,12 @@ server.listen(process.env.port || process.env.PORT || 4242, () => {
 });
 
 // Create chat bot
+const inMemoryStorage = new builder.MemoryBotStorage();
 const connector = new builder.ChatConnector({
 	appId: process.env.MICROSOFT_APP_ID,
 	appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-const bot = new builder.UniversalBot(connector);
+const bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage);
 server.post('/api/messages', connector.listen());
 
 // Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
